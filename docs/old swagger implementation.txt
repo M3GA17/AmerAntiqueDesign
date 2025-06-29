@@ -1,0 +1,96 @@
+using Application;
+using Infrastructure;
+using Microsoft.OpenApi.Models;
+using System.Security.Claims;
+
+namespace WebApi
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+
+            builder.Services.AddControllers();
+            builder.Services.AddOpenApi();
+
+            builder.Services.AddEndpointsApiExplorer();
+
+            #region swagger
+            builder.Services.AddSwaggerGen(option =>
+            {
+                option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter a valid token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type=ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
+            #endregion swagger
+
+            //builder.Services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowLocalhost3000",
+            //        builder => builder.WithOrigins("http://localhost:3000")
+            //                          .AllowAnyHeader()
+            //                          .AllowAnyMethod());
+            //});
+
+            builder.Services.AddApplication(builder.Configuration);
+            builder.Services.AddInfrastructure(builder.Configuration);
+
+            var app = builder.Build();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/openapi/v1.json", "Demo Api");
+                });
+            }
+
+            app.UseHttpsRedirection();
+            app.UseCors(x => x
+                 .AllowAnyMethod()
+                 .AllowAnyHeader()
+                 .AllowCredentials()
+                 .WithOrigins("http://localhost:3000"));
+            //.SetIsOriginAllowed(origin => true));
+
+
+            app.MapGet("users/me", (ClaimsPrincipal claimsPrincipal) =>
+            {
+                return claimsPrincipal.Claims.ToDictionary(c => c.Type, c => c.Value);
+            }).RequireAuthorization();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
+        }
+    }
+}

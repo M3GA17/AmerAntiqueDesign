@@ -1,0 +1,7 @@
+webapi: 8080 - 8081
+
+dashboard react: 3002-3003
+
+ecommerce react: 3000-3001
+
+(dismesso) keycloak: 8100-8443
