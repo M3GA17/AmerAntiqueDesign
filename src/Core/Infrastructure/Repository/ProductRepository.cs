@@ -25,7 +25,7 @@ namespace Infrastructure.Repository
         public async Task<IEnumerable<Product>> GetListAsync(CancellationToken cancellationToken)
         {
             return await dbContext.Products
-                .Include(p => p.Category)
+                //.Include(p => p.Category)
                 .AsNoTracking().ToListAsync(cancellationToken);
         }
 
@@ -49,13 +49,12 @@ namespace Infrastructure.Repository
                 .Include(c => c.SubCategories)
                 .AsNoTracking().ToListAsync(cancellationToken);
         }
-        public async Task<Category?> GetCategoryByIdAsync(IdCategory id)
+        public async Task<Category?> GetCategoryByIdAsync(IdCategory idCategory, CancellationToken cancellationToken)
         {
-            // Supponiamo che '_context' sia un'istanza del tuo DbContext
             return await dbContext.Categories
                         .Include(c => c.CategoryParent) // Include il genitore
                         .Include(c => c.SubCategories)  // Include le sottocategorie
-                        .FirstOrDefaultAsync(c => c.Id == id);
+                        .FirstOrDefaultAsync(c => c.Id == idCategory, cancellationToken);
         }
         #endregion Category
 

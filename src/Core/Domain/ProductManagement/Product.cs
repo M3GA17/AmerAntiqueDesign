@@ -10,17 +10,18 @@ public class Product : AggregateRoot<IdProduct>
     public virtual SerialNumber SerialNumber { get; set; } = null!;
     public virtual string Name { get; set; } = null!;
     public virtual string? Description { get; set; }
-    public virtual Category Category { get; set; } = null!;
+    public virtual IdCategory IdCategory { get; set; } = null!;
+    //public virtual Category Category { get; set; } = null!;
     public virtual ProductStatus ProductStatus { get; set; } = null!;
     public virtual Dimension Dimension { get; set; } = null!;
     public virtual IdUser IdUserCreate { get; set; } = null!;
     public virtual IdUser? IdUserUpdate { get; set; }
 
-    public Product()
+    public Product() : base(new IdProduct())
     {
     }
 
-    public virtual Product Create(SerialNumber serialNumber, string name, string description, Category category,
+    public static Product Create(SerialNumber serialNumber, string name, string? description, IdCategory idCategory,
                           ProductStatus productStatus, Dimension dimension, IdUser idUserCreate, DateTimeOffset dateCreate)
     {
         var product = new Product
@@ -28,8 +29,7 @@ public class Product : AggregateRoot<IdProduct>
             SerialNumber = serialNumber,
             Name = name,
             Description = description,
-            //IdCategory = idCategory,
-            Category = category,
+            IdCategory = idCategory,
             ProductStatus = productStatus,
             Dimension = dimension,
             IdUserCreate = idUserCreate,
@@ -39,14 +39,13 @@ public class Product : AggregateRoot<IdProduct>
         return product;
     }
 
-    public virtual void Update(SerialNumber serialNumber, string name, string description, Category category,
+    public virtual void Update(SerialNumber serialNumber, string name, string description, IdCategory idCategory,
                         ProductStatus productStatus, Dimension dimension, bool isEnabled, IdUser idUserUpdate, DateTimeOffset dateUpdate)
     {
         SerialNumber = serialNumber;
         Name = name;
         Description = description;
-        //IdCategory = idCategory;
-        Category = category;
+        IdCategory = idCategory;
         ProductStatus = productStatus;
         Dimension = dimension;
         IdUserUpdate = idUserUpdate;

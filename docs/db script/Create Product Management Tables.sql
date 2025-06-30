@@ -37,8 +37,8 @@ CREATE TABLE IF NOT EXISTS public."products_tb" (
     "isBulky" BOOLEAN NOT NULL,
     "idUserCreate" UUID NOT NULL,
     "dateCreate" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "idUserUpdate" UUID NOT NULL,
-    "dateUpdate" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "idUserUpdate" UUID NULL,
+    "dateUpdate" TIMESTAMP WITH TIME ZONE NULL,
 	"databaseVersion" INTEGER NOT NULL,
     CONSTRAINT "PK_products_tb_idProduct" PRIMARY KEY ("idProduct"),
     CONSTRAINT "UI_products_tb_serialNumber" UNIQUE ("serialNumber")

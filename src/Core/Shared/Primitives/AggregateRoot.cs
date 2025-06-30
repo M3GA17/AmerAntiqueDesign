@@ -13,6 +13,7 @@ public abstract class AggregateRoot<TId> : Entity<TId>
 
     protected AggregateRoot(TId id) : base(id)
     {
+        Id = id;
         DatabaseVersion = 0;
     }
 

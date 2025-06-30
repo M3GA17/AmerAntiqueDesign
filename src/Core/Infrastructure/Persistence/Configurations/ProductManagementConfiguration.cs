@@ -21,7 +21,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.SerialNumber).HasColumnName("serialNumber").IsRequired().HasConversion(sn => sn.Value, value => SerialNumber.Create(value)).HasMaxLength(7);
         builder.Property(p => p.Name).HasColumnName("name").IsRequired().HasMaxLength(512);
         builder.Property(p => p.Description).HasColumnName("description").HasMaxLength(2048);
-        //builder.Property(p => p.IdCategory).HasColumnName("idCategory").IsRequired().HasConversion(id => id.Value, value => new IdCategory(value));
+        builder.Property(p => p.IdCategory).HasColumnName("idCategory").IsRequired().HasConversion(id => id.Value, value => new IdCategory(value));
         builder.Property(p => p.ProductStatus).HasColumnName("idProductStatus").IsRequired()
                .HasConversion(status => status.Id.Value, value => ProductStatus.GetById(new IdProductStatus(value))).HasMaxLength(5).IsFixedLength();
         builder.OwnsOne(p => p.Dimension, dimensionBuilder =>
@@ -33,20 +33,18 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         });
         builder.Property(p => p.IdUserCreate).HasColumnName("idUserCreate").IsRequired().HasConversion(id => id.Value, value => new IdUser(value));
         builder.Property(p => p.DateCreate).HasColumnName("dateCreate").IsRequired();
-        builder.Property(p => p.IdUserUpdate).HasColumnName("idUserUpdate").IsRequired().HasConversion(id => id.Value, value => new IdUser(value));
-        builder.Property(p => p.DateUpdate).HasColumnName("dateUpdate").IsRequired();
+        builder.Property(p => p.IdUserUpdate).HasColumnName("idUserUpdate")
+                        .HasConversion(id => id != null ? id.Value : (Guid?)null, value => value != null ? new IdUser(value.Value) : null);
+        builder.Property(p => p.DateUpdate).HasColumnName("dateUpdate");
         builder.Property(p => p.DatabaseVersion).HasColumnName("databaseVersion").IsRequired();
 
-        //builder.HasOne(p => p.ProductStatus)
-        //   .WithMany()
-        //   .HasForeignKey("idProductStatus")
-        //   .IsRequired()
 
+        //per mappare direttamente Category
+        //builder.HasOne(p => p.Category)
+        //  .WithMany()
+        //  .HasForeignKey("idCategory")
+        //  .IsRequired();
 
-        builder.HasOne(p => p.Category)
-          .WithMany()
-          .HasForeignKey("idCategory")
-          .IsRequired();
     }
 }
 public class CategoryConfiguration : IEntityTypeConfiguration<Category>

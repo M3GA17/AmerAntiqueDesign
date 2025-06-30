@@ -1,7 +1,6 @@
 ﻿using Application.Abstractions;
 using Domain.ProductManagement;
 using Domain.ProductManagement.Repositories;
-using Shared.Base;
 
 namespace Application.ProductManagement.Queries.GetProducts
 {
@@ -12,9 +11,9 @@ namespace Application.ProductManagement.Queries.GetProducts
         {
             this.productRepository = productRepository;
         }
-        public async Task<Result<List<Product>>> Handle(GetProductListQuery request, CancellationToken cancellationToken)
+        public async Task<List<Product>> Handle(GetProductListQuery request, CancellationToken cancellationToken)
         {
-            return Result.Success((await productRepository.GetListAsync(cancellationToken)).ToList());
+            return (await productRepository.GetListAsync(cancellationToken)).ToList();
         }
     }
 }

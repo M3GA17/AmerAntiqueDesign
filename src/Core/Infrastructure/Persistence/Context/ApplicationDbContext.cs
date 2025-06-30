@@ -1,4 +1,6 @@
-﻿using Domain.ProductManagement;
+﻿using Application.Abstractions.UnitOfWork;
+using Application.Abstractions.UnitOfWorkò;
+using Domain.ProductManagement;
 using Domain.UserManagement;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -7,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Persistence.Context;
 
 public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-       : IdentityDbContext<DomainUser, IdentityRole<Guid>, Guid>(options)
+       : IdentityDbContext<DomainUser, IdentityRole<Guid>, Guid>(options), IApplicationDbContext, IUnitOfWork
 {
     //dotnet ef dbcontext scaffold "Host=localhost;Port=5432;Database=AmerAntiqueDesign_Dev;Username=postgres;Password=postgres" Npgsql.EntityFrameworkCore.PostgreSQL --output-dir Persistence/Entities --context-dir Persistence/Context --context TuoDbContext --no-onconfiguring
 
@@ -19,25 +21,12 @@ public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext>
     public virtual DbSet<Product> Products { get; set; }
     public virtual DbSet<Category> Categories { get; set; }
 
-    #region Identity
-    //public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-
-    //public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
-
-    //public virtual DbSet<DomainUser> AspNetUsers { get; set; }
-
-    //public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-
-    //public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-
-    //public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
-    #endregion Identity
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.HasPostgresExtension("uuid-ossp");
+        //modelBuilder.UseHiLo(); //Nel caso l'id non venga creato dal dominio ma dal database
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
         const string identitySchema = "identity";
@@ -49,16 +38,27 @@ public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext>
         modelBuilder.Entity<IdentityRoleClaim<Guid>>(b => b.ToTable("AspNetRoleClaims", identitySchema));
         modelBuilder.Entity<IdentityUserToken<Guid>>(b => b.ToTable("AspNetUserTokens", identitySchema));
 
-        //modelBuilder.Entity<Product>().HasKey(p => p.Id);
-        //modelBuilder.Entity<Product>().Property(p => p.Id).HasConversion(id => id.Value, value => new IdProduct(value));
-
-        //modelBuilder.Entity<Category>().HasKey(p => p.Id);
-        //modelBuilder.Entity<Category>().Property(p => p.Id).HasConversion(id => id.Value, value => new IdCategory(value));
-
         OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    //public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken()) //per salvare i domain Event
+    //{
+    //    var domainEvents = ChangeTracker.Entries<Entity>()
+    //        .Select(e => e.Entity)
+    //        .Where(e => e.GetDomainEvents().Any())
+    //        .SelectMany(e => e.GetDomainEvents());
+
+    //    var result = await base.SaveChangesAsync(cancellationToken);
+
+    //    foreach (var domainEvent in domainEvents)
+    //    {
+    //        await _publisher.Publish(domainEvent, cancellationToken);
+    //    }
+
+    //    return result;
+    //}
 }
 
 

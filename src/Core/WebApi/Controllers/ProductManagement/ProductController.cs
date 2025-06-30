@@ -1,3 +1,4 @@
+using Application.ProductManagement.Commands;
 using Application.ProductManagement.Queries.GetProducts;
 using Domain.ProductManagement;
 using MediatR;
@@ -10,6 +11,7 @@ namespace WebApi.Controllers;
 [Route("api/[controller]")]
 public class ProductController(ISender sender, ILogger<ProductController> logger) : ControllerBase
 {
+    #region Queries
     [HttpGet("[action]")]
     [ProducesResponseType(typeof(List<Product>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -29,9 +31,31 @@ public class ProductController(ISender sender, ILogger<ProductController> logger
         Result<List<Category>> response = await sender.Send(query, cancellationToken);
         return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
     }
+    #endregion Queries
+
+    #region Commands
+
+    [HttpPost("[action]")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command, CancellationToken cancellationToken)
+    {
+        await sender.Send(command, cancellationToken);
+        return Ok();
+        //Result<Unit> response = await sender.Send(command, cancellationToken);
+        //return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+    }
+    #endregion Commands
 
 
-
+    //[HttpPost]
+    //[ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+    //public async Task<IActionResult> Register([FromBody] CreateUserCommand command, CancellationToken cancellationToken)
+    //{
+    //    Result<CreateUserCommand.Response> response = await sender.Send(command, cancellationToken);
+    //    return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+    //}
 
     //[HttpPost("addCategory")]
     //[ProducesResponseType(StatusCodes.Status201Created)]
@@ -53,11 +77,7 @@ public class ProductController(ISender sender, ILogger<ProductController> logger
     //}
 
 
-    //public async Task<IActionResult> GetCategoryById([FromBody] CreateCategoryCommand command, CancellationToken cancellationToken)
-    //{
-    //    Result<CreateCategoryCommand.Response> response = await sender.Send(command, cancellationToken);
-    //    return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
-    //}
+
 
 
 

@@ -1,20 +1,14 @@
-﻿using Application.Abstractions;
-using Domain.ProductManagement;
+﻿using Domain.ProductManagement;
 using Domain.ProductManagement.Repositories;
-using Shared.Base;
+using MediatR;
 
-namespace Application.ProductManagement.Queries.GetProducts
+namespace Application.ProductManagement.Queries.GetProducts;
+
+internal class GetCategoriesListQueryHandler(IProductRepository productRepository) : IRequestHandler<GetCategoriesListQuery, List<Category>>
 {
-    internal class GetCategoriesListQueryHandler : IQueryHandler<GetCategoriesListQuery, List<Category>>
+    private readonly IProductRepository productRepository = productRepository;
+    public async Task<List<Category>> Handle(GetCategoriesListQuery request, CancellationToken cancellationToken)
     {
-        private readonly IProductRepository productRepository;
-        public GetCategoriesListQueryHandler(IProductRepository productRepository)
-        {
-            this.productRepository = productRepository;
-        }
-        public async Task<Result<List<Category>>> Handle(GetCategoriesListQuery request, CancellationToken cancellationToken)
-        {
-            return Result.Success((await productRepository.GetCategoriesAsync(cancellationToken)).ToList());
-        }
+        return (await productRepository.GetCategoriesAsync(cancellationToken)).ToList();
     }
 }
