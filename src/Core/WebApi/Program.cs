@@ -1,7 +1,7 @@
 using Application;
 using Domain.UserManagement;
 using Infrastructure;
-using Infrastructure.Persistence.Context;
+using Infrastructure.Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 
@@ -19,6 +19,7 @@ public class Program
         // Add services to the container.
         builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddApplication(builder.Configuration);
+        builder.Services.AddWebApi(builder.Configuration);
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

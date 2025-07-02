@@ -1,4 +1,4 @@
-﻿using Application.Behaviors;
+﻿using Application.Abstractions.UnitOfWork;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

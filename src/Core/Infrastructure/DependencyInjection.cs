@@ -1,7 +1,7 @@
 ﻿using Application.Abstractions.UnitOfWork;
 using Domain.ProductManagement.Repositories;
-using Infrastructure.Persistence.Context;
-using Infrastructure.Repository;
+using Infrastructure.Database;
+using Infrastructure.Database.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,5 +26,6 @@ public static class DependencyInjection
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Domain.ProductManagement;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Abstractions.UnitOfWorkò
+namespace Application.Abstractions.UnitOfWork
 {
     public interface IApplicationDbContext
     {

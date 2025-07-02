@@ -1,12 +1,12 @@
 ﻿using Domain.ProductManagement.ValueObjects;
 using Shared.Base;
+using Shared.ValueObjects;
 
 namespace Domain.ProductManagement.Repositories
 {
     public interface IProductRepository : IBaseRepository<Product, IdProduct>
     {
-        Task<IEnumerable<Category>> GetCategoriesAsync(CancellationToken cancellationToken);
-        Task<Category?> GetCategoryByIdAsync(IdCategory idCategory, CancellationToken cancellationToken);
+        public Task<SerialNumber> GetNextSerialNumberAsync(CancellationToken cancellationToken);
 
     }
 }

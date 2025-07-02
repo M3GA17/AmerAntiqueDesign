@@ -4,31 +4,29 @@ using Shared.Primitives;
 
 namespace Domain.ProductManagement;
 
-public class Category : Entity<IdCategory>
+public class Category : AggregateRoot<IdCategory>
 {
     public virtual string Name { get; set; } = null!;
     public virtual string? Description { get; set; }
-    public virtual IdCategory? IdCategoryParent { get; set; }
     public virtual bool IsEnabled { get; set; }
     public virtual IdUser IdUserCreate { get; set; } = null!;
     public virtual IdUser? IdUserUpdate { get; set; }
 
     public Category? CategoryParent { get; private set; }
-
     public ICollection<Category> SubCategories { get; private set; } = [];
 
-    public Category()
+    public Category() : base(new IdCategory())
     {
         IsEnabled = true;
     }
 
-    public static Category Create(string name, string description, IdCategory? idCategoryParent, IdUser idUserCreate, DateTimeOffset dateCreate)
+    public static Category Create(string name, string? description, Category? categoryParent, IdUser idUserCreate, DateTimeOffset dateCreate)
     {
         var category = new Category
         {
             Name = name,
             Description = description,
-            IdCategoryParent = idCategoryParent,
+            CategoryParent = categoryParent,
             IdUserCreate = idUserCreate,
             DateCreate = dateCreate,
         };
@@ -36,11 +34,11 @@ public class Category : Entity<IdCategory>
         return category;
     }
 
-    public void Update(string name, string description, IdCategory? idCategoryParent, bool isEnabled, IdUser idUserUpdate, DateTimeOffset dateUpdate)
+    public void Update(string name, string description, Category? categoryParent, bool isEnabled, IdUser idUserUpdate, DateTimeOffset dateUpdate)
     {
         Name = name;
         Description = description;
-        IdCategoryParent = idCategoryParent;
+        CategoryParent = categoryParent;
         IdUserUpdate = idUserUpdate;
         IsEnabled = isEnabled;
         DateUpdate = dateUpdate;

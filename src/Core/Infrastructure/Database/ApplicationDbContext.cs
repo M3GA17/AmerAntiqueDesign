@@ -1,12 +1,11 @@
 ﻿using Application.Abstractions.UnitOfWork;
-using Application.Abstractions.UnitOfWorkò;
 using Domain.ProductManagement;
 using Domain.UserManagement;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistence.Context;
+namespace Infrastructure.Database;
 
 public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
        : IdentityDbContext<DomainUser, IdentityRole<Guid>, Guid>(options), IApplicationDbContext, IUnitOfWork

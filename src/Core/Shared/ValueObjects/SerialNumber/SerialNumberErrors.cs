@@ -1,4 +1,4 @@
-﻿using Shared.Base;
+﻿using Shared.Base.Validation;
 
 namespace Shared.ValueObjects;
 public static class SerialNumberErrors

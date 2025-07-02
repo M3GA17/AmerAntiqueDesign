@@ -3,7 +3,7 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : ValueObj
 {
     public virtual TId Id { get; protected set; } = default!;
     public virtual DateTimeOffset DateCreate { get; set; }
-    public virtual DateTimeOffset DateUpdate { get; set; }
+    public virtual DateTimeOffset? DateUpdate { get; set; }
 
     protected Entity() { }
 

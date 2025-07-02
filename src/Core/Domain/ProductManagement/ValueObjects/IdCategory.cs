@@ -1,5 +1,4 @@
-﻿using Shared.Primitives;
-using Shared.ValueObjects;
+﻿using Shared.ValueObjects;
 namespace Domain.ProductManagement.ValueObjects;
 public class IdCategory : BaseId<Guid>
 {

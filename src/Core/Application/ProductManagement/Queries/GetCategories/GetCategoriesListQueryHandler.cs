@@ -4,11 +4,11 @@ using MediatR;
 
 namespace Application.ProductManagement.Queries.GetProducts;
 
-internal class GetCategoriesListQueryHandler(IProductRepository productRepository) : IRequestHandler<GetCategoriesListQuery, List<Category>>
+internal class GetCategoriesListQueryHandler(ICategoryRepository categoryRepository) : IRequestHandler<GetCategoriesListQuery, List<Category>>
 {
-    private readonly IProductRepository productRepository = productRepository;
+    private readonly ICategoryRepository categoryRepository = categoryRepository;
     public async Task<List<Category>> Handle(GetCategoriesListQuery request, CancellationToken cancellationToken)
     {
-        return (await productRepository.GetCategoriesAsync(cancellationToken)).ToList();
+        return (await categoryRepository.GetListAsync(cancellationToken)).ToList();
     }
 }

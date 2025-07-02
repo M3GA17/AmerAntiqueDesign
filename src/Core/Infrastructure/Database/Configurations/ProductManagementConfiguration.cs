@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shared.ValueObjects;
 
-namespace Infrastructure.Persistence.Configurations;
+namespace Infrastructure.Database;
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
@@ -14,7 +14,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.ToTable("products_tb");
 
         builder.HasKey(p => p.Id).HasName("PK_products_tb_idProduct");
-
         builder.HasIndex(p => p.SerialNumber).IsUnique().HasDatabaseName("UI_products_tb_serialNumber");
 
         builder.Property(p => p.Id).HasColumnName("idProduct").IsRequired().HasConversion(id => id.Value, value => new IdProduct(value));
@@ -34,17 +33,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.IdUserCreate).HasColumnName("idUserCreate").IsRequired().HasConversion(id => id.Value, value => new IdUser(value));
         builder.Property(p => p.DateCreate).HasColumnName("dateCreate").IsRequired();
         builder.Property(p => p.IdUserUpdate).HasColumnName("idUserUpdate")
-                        .HasConversion(id => id != null ? id.Value : (Guid?)null, value => value != null ? new IdUser(value.Value) : null);
+               .HasConversion(id => id != null ? id.Value : (Guid?)null, value => value != null ? new IdUser(value.Value) : null);
         builder.Property(p => p.DateUpdate).HasColumnName("dateUpdate");
         builder.Property(p => p.DatabaseVersion).HasColumnName("databaseVersion").IsRequired();
-
-
-        //per mappare direttamente Category
-        //builder.HasOne(p => p.Category)
-        //  .WithMany()
-        //  .HasForeignKey("idCategory")
-        //  .IsRequired();
-
     }
 }
 public class CategoryConfiguration : IEntityTypeConfiguration<Category>
@@ -54,7 +45,6 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.ToTable("categories_tb");
 
         builder.HasKey(c => c.Id).HasName("PK_categories_tb_idCategory");
-
         builder.HasIndex(c => c.Name).IsUnique().HasDatabaseName("UI_categories_tb_name");
 
         builder.Property(c => c.Id).HasColumnName("idCategory").IsRequired().HasConversion(id => id.Value, value => new IdCategory(value));
@@ -63,14 +53,21 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.Property(c => c.IsEnabled).HasColumnName("isEnabled").IsRequired();
         builder.Property(c => c.IdUserCreate).HasColumnName("idUserCreate").IsRequired().HasConversion(id => id.Value, value => new IdUser(value));
         builder.Property(c => c.DateCreate).HasColumnName("dateCreate").IsRequired();
-        builder.Property(c => c.IdUserUpdate).HasColumnName("idUserUpdate").IsRequired().HasConversion(id => id.Value, value => new IdUser(value));
-        builder.Property(c => c.DateUpdate).HasColumnName("dateUpdate").IsRequired();
-        builder.Property(c => c.IdCategoryParent).HasColumnName("idCategoryParent").HasConversion(id => id != null ? id.Value : (Guid?)null,
-                                                                         value => value.HasValue ? new IdCategory(value.Value) : null);
+        builder.Property(c => c.IdUserUpdate).HasColumnName("idUserUpdate").HasConversion(id => id.Value, value => new IdUser(value));
+        builder.Property(c => c.DateUpdate).HasColumnName("dateUpdate");
+        builder.Property(p => p.DatabaseVersion).HasColumnName("databaseVersion").IsRequired();
         builder.HasOne(c => c.CategoryParent)
                .WithMany(c => c.SubCategories)
-               .HasForeignKey(sc => sc.IdCategoryParent)
+               .HasForeignKey("idCategoryParent")
                .HasConstraintName("FK_categories_tb_TO_categories_tb_idCategoryParent")
                .OnDelete(DeleteBehavior.Restrict);
+
+        //builder.Property(c => c.IdCategoryParent).HasColumnName("idCategoryParent").HasConversion(id => id != null ? id.Value : (Guid?)null,
+        //                                                                 value => value.HasValue ? new IdCategory(value.Value) : null);
+        //builder.HasOne(c => c.CategoryParent)
+        //       .WithMany(c => c.SubCategories)
+        //       .HasForeignKey(sc => sc.IdCategoryParent)
+        //       .HasConstraintName("FK_categories_tb_TO_categories_tb_idCategoryParent")
+        //       .OnDelete(DeleteBehavior.Restrict);
     }
 }

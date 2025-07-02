@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Shared.Base;
+namespace Shared.Base.Validation;
 public class Result
 {
     protected internal Result(bool isSuccess, Error error)
@@ -47,4 +47,11 @@ public class Result<TValue> : Result
 
     public static implicit operator Result<TValue>(TValue? value) =>
         value is not null ? Success(value) : Failure<TValue>(Error.NullValue);
+}
+
+public record Error(string Code, string Message)
+{
+    public static readonly Error None = new(string.Empty, string.Empty);
+    public static readonly Error NullValue = new("Error.NullValue", "Null value was provided");
+    public static implicit operator Result(Error error) => Result.Failure(error);
 }
