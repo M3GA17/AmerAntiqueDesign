@@ -95,7 +95,7 @@ public class Program
                 c.OAuthUsePkce();
 
                 // Aggiungi questa riga per il Client Secret
-                c.OAuthClientSecret(builder.Configuration["Keycloak:client-secret"]);
+                //c.OAuthClientSecret(builder.Configuration["Keycloak:client-secret"]);
             });
         }
 

@@ -1,20 +1,16 @@
 ﻿using Application.Abstractions.Context;
 using Domain.UserManagement;
+using System.Security.Claims;
 
 namespace WebApi.Infrastructure
 {
-    public class ContextService : IContextService
+    public class ContextService(IHttpContextAccessor httpContextAccessor) : IContextService
     {
-        public ContextService(IHttpContextAccessor httpContextAccessor)
-        {
-            idUser = new Lazy<IdUser>(() =>
+        private readonly Lazy<IdUser> idUser = new Lazy<IdUser>(() =>
             {
-                var userId = httpContextAccessor.HttpContext?.User.FindFirst("sub")?.Value;
+                var userId = httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 return userId is not null ? new IdUser(Guid.Parse(userId)) : new IdUser(Guid.Empty);
             });
-        }
-
-        private readonly Lazy<IdUser> idUser;
         public IdUser IdUser => idUser.Value;
     }
 }
