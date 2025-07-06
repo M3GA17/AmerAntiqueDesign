@@ -2,7 +2,7 @@
 using Domain.ProductManagement;
 using Domain.ProductManagement.Repositories;
 using Domain.ProductManagement.ValueObjects;
-using Domain.UserManagement.ValueObjects;
+using Domain.UserManagement;
 using Shared.Base;
 using Shared.Base.Validation;
 

@@ -1,24 +1,23 @@
 ﻿using Application.Abstractions.UnitOfWork;
 using Domain.ProductManagement;
 using Domain.UserManagement;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database;
 
 public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-       : IdentityDbContext<DomainUser, IdentityRole<Guid>, Guid>(options), IApplicationDbContext, IUnitOfWork
+        : DbContext(options), IApplicationDbContext, IUnitOfWork
 {
     //dotnet ef dbcontext scaffold "Host=localhost;Port=5432;Database=AmerAntiqueDesign_Dev;Username=postgres;Password=postgres" Npgsql.EntityFrameworkCore.PostgreSQL --output-dir Persistence/Entities --context-dir Persistence/Context --context TuoDbContext --no-onconfiguring
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseNpgsql();
-    }
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    optionsBuilder.UseNpgsql();
+    //}
 
     public virtual DbSet<Product> Products { get; set; }
     public virtual DbSet<Category> Categories { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,16 +26,6 @@ public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext>
         modelBuilder.HasPostgresExtension("uuid-ossp");
         //modelBuilder.UseHiLo(); //Nel caso l'id non venga creato dal dominio ma dal database
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-
-        const string identitySchema = "identity";
-        modelBuilder.Entity<DomainUser>(b => b.ToTable("AspNetUsers", identitySchema));
-        modelBuilder.Entity<IdentityRole<Guid>>(b => b.ToTable("AspNetRoles", identitySchema));
-        modelBuilder.Entity<IdentityUserClaim<Guid>>(b => b.ToTable("AspNetUserClaims", identitySchema));
-        modelBuilder.Entity<IdentityUserRole<Guid>>(b => b.ToTable("AspNetUserRoles", identitySchema));
-        modelBuilder.Entity<IdentityUserLogin<Guid>>(b => b.ToTable("AspNetUserLogins", identitySchema));
-        modelBuilder.Entity<IdentityRoleClaim<Guid>>(b => b.ToTable("AspNetRoleClaims", identitySchema));
-        modelBuilder.Entity<IdentityUserToken<Guid>>(b => b.ToTable("AspNetUserTokens", identitySchema));
-
         OnModelCreatingPartial(modelBuilder);
     }
 

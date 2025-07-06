@@ -1,5 +1,5 @@
 ﻿using Domain.ProductManagement.ValueObjects;
-using Domain.UserManagement.ValueObjects;
+using Domain.UserManagement;
 using Shared.Primitives;
 
 namespace Domain.ProductManagement;

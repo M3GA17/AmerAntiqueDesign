@@ -2,14 +2,14 @@
 
 namespace Domain.UserManagement;
 
-public class IdUser : BaseId<Guid>
+public class IdKeycloakGroup : BaseId<Guid>
 {
-    public IdUser()
+    public IdKeycloakGroup()
         : base(Guid.NewGuid())
     {
         Value = Guid.NewGuid();
     }
-    public IdUser(Guid value)
+    public IdKeycloakGroup(Guid value)
         : base(value)
     {
     }

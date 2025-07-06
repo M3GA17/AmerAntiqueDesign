@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions.Context;
-using Domain.UserManagement.ValueObjects;
+using Domain.UserManagement;
 
 namespace WebApi.Infrastructure
 {

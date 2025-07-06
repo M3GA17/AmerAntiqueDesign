@@ -1,6 +1,6 @@
 ﻿using Domain.ProductManagement;
 using Domain.ProductManagement.ValueObjects;
-using Domain.UserManagement.ValueObjects;
+using Domain.UserManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shared.ValueObjects;

@@ -1,15 +1,14 @@
 ﻿using Shared.ValueObjects;
 
 namespace Domain.UserManagement;
-
-public class IdUser : BaseId<Guid>
+public class IdKeycloakRole : BaseId<Guid>
 {
-    public IdUser()
+    public IdKeycloakRole()
         : base(Guid.NewGuid())
     {
         Value = Guid.NewGuid();
     }
-    public IdUser(Guid value)
+    public IdKeycloakRole(Guid value)
         : base(value)
     {
     }

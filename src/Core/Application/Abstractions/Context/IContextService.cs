@@ -1,4 +1,4 @@
-﻿using Domain.UserManagement.ValueObjects;
+﻿using Domain.UserManagement;
 
 namespace Application.Abstractions.Context;
 
