@@ -2,6 +2,8 @@ using Application;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace WebApi;
 
@@ -31,11 +33,56 @@ public class Program
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {
-            // L'URL del tuo realm Keycloak
             options.Authority = builder.Configuration["Keycloak:authority"];
-            // Il Client ID della tua API
             options.Audience = builder.Configuration["Keycloak:resource"];
-            options.RequireHttpsMetadata = false; // Metti a true in produzione
+            options.RequireHttpsMetadata = false;
+
+            options.TokenValidationParameters.RoleClaimType = ClaimTypes.Role;
+            // --- CODICE CORRETTO PER LEGGERE I REALM ROLES ---
+            options.Events = new JwtBearerEvents
+            {
+                OnTokenValidated = context =>
+                {
+                    if (context.Principal?.Identity is not ClaimsIdentity claimsIdentity)
+                    {
+                        return Task.CompletedTask;
+                    }
+
+                    // 1. Cerchiamo il claim "realm_access"
+                    var realmAccessClaim = context.Principal.FindFirst("realm_access");
+                    if (realmAccessClaim is null || string.IsNullOrWhiteSpace(realmAccessClaim.Value))
+                    {
+                        return Task.CompletedTask;
+                    }
+
+                    try
+                    {
+                        // 2. Eseguiamo il parsing del suo valore, che è una stringa JSON
+                        using var realmAccessJson = JsonDocument.Parse(realmAccessClaim.Value);
+
+                        // 3. Navighiamo il JSON per ottenere l'array "roles"
+                        var roles = realmAccessJson.RootElement.GetProperty("roles").EnumerateArray();
+
+                        // 4. Iteriamo sull'array e aggiungiamo ogni ruolo come ClaimTypes.Role
+                        foreach (var role in roles)
+                        {
+                            var roleName = role.GetString();
+                            if (!string.IsNullOrWhiteSpace(roleName))
+                            {
+                                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, roleName));
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // È FONDAMENTALE loggare l'eccezione in caso di problemi col parsing.
+                        // Potresti usare ILogger qui.
+                        Console.WriteLine($"Errore durante il parsing dei ruoli da Keycloak: {ex.Message}");
+                    }
+
+                    return Task.CompletedTask;
+                }
+            };
         });
 
         builder.Services.AddHttpContextAccessor();

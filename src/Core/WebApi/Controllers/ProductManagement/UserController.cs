@@ -1,6 +1,7 @@
 using Application.UserManagement.Queries.GetUsers;
 using Domain.UserManagement;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Base.Validation;
 
@@ -12,6 +13,7 @@ public class UserController(ISender sender, ILogger<UserController> logger) : Co
 {
     #region Queries
     [HttpGet("[action]")]
+    [Authorize(Roles = Permission.AmerAntiqueDesign_ProductManagement_Reader)]
     [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetUsers([FromQuery] GetUsersList.Query query, CancellationToken cancellationToken)
@@ -20,7 +22,14 @@ public class UserController(ISender sender, ILogger<UserController> logger) : Co
         return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
     }
 
-    //[HttpGet("[action]")]
+    [HttpGet("test-role")]
+    [Authorize(Roles = Permission.AmerAntiqueDesign_ProductManagement_Reader)]
+    public IActionResult TestRoleAccess()
+    {
+        // Se arrivi qui, l'autorizzazione basata su ruoli funziona.
+        return Ok("ACCESSO CONSENTITO! Il ruolo è stato riconosciuto.");
+    }
+    //[HttpGet("[action]")] 
     //[ProducesResponseType(typeof(List<Category>), StatusCodes.Status200OK)]
     //[ProducesResponseType(StatusCodes.Status400BadRequest)]
     //public async Task<IActionResult> GetCategories(CancellationToken cancellationToken)
