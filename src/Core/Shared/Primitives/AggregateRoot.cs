@@ -1,10 +1,13 @@
-﻿namespace Shared.Primitives;
+﻿using Shared.Primitives.Interfaces;
 
-public abstract class AggregateRoot<TId> : Entity<TId>
+namespace Shared.Primitives;
+
+public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot
     where TId : ValueObject
 {
     private readonly List<IDomainEvent> domainEvents = [];
-    public virtual int DatabaseVersion { get; protected set; }
+
+    public virtual int DatabaseVersion { get; set; }
 
     protected AggregateRoot() : base()
     {

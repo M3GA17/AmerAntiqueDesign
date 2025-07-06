@@ -17,6 +17,8 @@ public class Product : AggregateRoot<IdProduct>
     public virtual IdUser IdUserCreate { get; set; } = null!;
     public virtual IdUser? IdUserUpdate { get; set; }
 
+    public virtual ICollection<ProductPhoto> ProductPhotos { get; set; } = [];
+
     public Product() : base(new IdProduct())
     {
     }
@@ -50,6 +52,11 @@ public class Product : AggregateRoot<IdProduct>
         Dimension = dimension;
         IdUserUpdate = idUserUpdate;
         DateUpdate = dateUpdate;
+    }
+
+    public virtual void UpdateName(string name)
+    {
+        Name = name;
     }
 }
 

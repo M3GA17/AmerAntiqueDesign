@@ -3,6 +3,7 @@ using Application.ProductManagement.Commands.CreateProduct;
 using Application.ProductManagement.Queries.GetProducts;
 using Domain.ProductManagement;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Base.Validation;
 
@@ -36,6 +37,7 @@ public class ProductController(ISender sender, ILogger<ProductController> logger
 
     #region Commands
     [HttpPost("[action]")]
+    [Authorize(Roles = Permission.AmerAntiqueDesign_ProductManagement_Writer)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command, CancellationToken cancellationToken)
@@ -45,6 +47,17 @@ public class ProductController(ISender sender, ILogger<ProductController> logger
     }
 
     [HttpPost("[action]")]
+    [Authorize(Roles = Permission.AmerAntiqueDesign_ProductManagement_Writer)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductCommand command, CancellationToken cancellationToken)
+    {
+        Result response = await sender.Send(command, cancellationToken);
+        return response.IsSuccess ? Created() : BadRequest(response.Error);
+    }
+
+    [HttpPost("[action]")]
+    [Authorize(Roles = Permission.AmerAntiqueDesign_ProductManagement_Writer)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryCommand command, CancellationToken cancellationToken)

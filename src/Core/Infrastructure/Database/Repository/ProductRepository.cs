@@ -1,11 +1,14 @@
-﻿using Domain.ProductManagement;
+﻿using Dapper;
+using Domain.ProductManagement;
 using Domain.ProductManagement.Repositories;
 using Domain.ProductManagement.ValueObjects;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
 using Shared.ValueObjects;
 
 namespace Infrastructure.Database.Repository;
-public class ProductRepository(ApplicationDbContext dbContext) : IProductRepository
+public class ProductRepository(ApplicationDbContext dbContext, IConfiguration configuration) : IProductRepository
 {
     #region Product
     public async Task AddAsync(Product entity, CancellationToken cancellationToken)
@@ -24,7 +27,8 @@ public class ProductRepository(ApplicationDbContext dbContext) : IProductReposit
     public async Task<IEnumerable<Product>> GetListAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Products
-            //.Include(p => p.Category)
+            //.Include(p => p.IdCategory)
+            .Include(p => p.ProductPhotos)
             .AsNoTracking().ToListAsync(cancellationToken);
     }
 
@@ -42,16 +46,11 @@ public class ProductRepository(ApplicationDbContext dbContext) : IProductReposit
     // get next serial number for a product
     public async Task<SerialNumber> GetNextSerialNumberAsync(CancellationToken cancellationToken)
     {
-        // Get the maximum serial number value from the database
-        var maxSerialNumberValue = await dbContext.Products
-            .Select(p => p.SerialNumber.Value)
-            .MaxAsync(cancellationToken);
+        string sql = "SELECT \"public\".\"get_next_serial_number\"()";
 
-        // Parse the maximum serial number value to an integer, defaulting to 0 if parsing fails
-        var maxSerialNumber = int.TryParse(maxSerialNumberValue, out var parsedValue) ? parsedValue : 0;
-
-        // Return the next serial number
-        return SerialNumber.Create((maxSerialNumber + 1).ToString());
+        await using var connection = new NpgsqlConnection(configuration.GetConnectionString("Default"));
+        var count = await connection.ExecuteScalarAsync<int>(sql);
+        return SerialNumber.Create(count.ToString());
     }
 
     #endregion Product

@@ -2,6 +2,7 @@
 using Domain.ProductManagement;
 using Domain.UserManagement;
 using Microsoft.EntityFrameworkCore;
+using Shared.Primitives.Interfaces;
 
 namespace Infrastructure.Database;
 
@@ -31,22 +32,21 @@ public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext>
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-    //public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken()) //per salvare i domain Event
-    //{
-    //    var domainEvents = ChangeTracker.Entries<Entity>()
-    //        .Select(e => e.Entity)
-    //        .Where(e => e.GetDomainEvents().Any())
-    //        .SelectMany(e => e.GetDomainEvents());
-
-    //    var result = await base.SaveChangesAsync(cancellationToken);
-
-    //    foreach (var domainEvent in domainEvents)
-    //    {
-    //        await _publisher.Publish(domainEvent, cancellationToken);
-    //    }
-
-    //    return result;
-    //}
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        IncrementDatabaseVersion();
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+    private void IncrementDatabaseVersion()
+    {
+        foreach (var entry in ChangeTracker.Entries())
+        {
+            if (entry.Entity is IAggregateRoot aggregateRoot && entry.State == EntityState.Modified)
+            {
+                aggregateRoot.IncrementVersion();
+            }
+        }
+    }
 }
 
 

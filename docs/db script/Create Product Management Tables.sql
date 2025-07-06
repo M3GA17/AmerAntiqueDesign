@@ -4,10 +4,10 @@ CREATE TABLE IF NOT EXISTS public."categories_tb" (
     "description" VARCHAR(512),
     "idCategoryParent" UUID,
     "isEnabled" BOOLEAN NOT NULL,
-    "idUserCreate" UUID NOT NULL,
+    "idUserCreate" varchar(36) NOT NULL,
     "dateCreate" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "idUserUpdate" UUID NOT NULL,
-    "dateUpdate" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "idUserUpdate" varchar(36),
+    "dateUpdate" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_categories_tb_idCategory" PRIMARY KEY ("idCategory")
 );
 
@@ -69,10 +69,10 @@ CREATE TABLE IF NOT EXISTS public."productPhotos_tb" (
     "url" VARCHAR(2048) NOT NULL, -- or path
     "isMain" BOOLEAN NOT NULL,
     "displayOrder" INTEGER NOT NULL,
-    "idUserCreate" UUID NOT NULL,
+    "idUserCreate" varchar(36) NOT NULL,
     "dateCreate" TIMESTAMP WITH TIME ZONE NOT NULL,
-    "idUserUpdate" UUID NOT NULL,
-    "dateUpdate" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "idUserUpdate" varchar(36),
+    "dateUpdate" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_productPhotos_tb_idProductPhoto" PRIMARY KEY ("idProductPhoto")
 );
 
@@ -81,12 +81,13 @@ ADD CONSTRAINT "FK_productPhotos_tb_TO_products_tb_idProduct" FOREIGN KEY ("idPr
 REFERENCES public."products_tb" ("idProduct") ON UPDATE NO ACTION ON DELETE RESTRICT;
 
 ALTER TABLE public."productPhotos_tb"
-ADD CONSTRAINT "FK_productPhotos_tb_TO_users_tb_idUserCreate" FOREIGN KEY ("idUserCreate")
-REFERENCES public."users_tb" ("idUser") ON UPDATE NO ACTION ON DELETE RESTRICT;
+ADD CONSTRAINT "FK_productPhotos_tb_TO_user_entity_idUserCreate" FOREIGN KEY ("idUserCreate")
+REFERENCES public."user_entity" ("id") ON UPDATE NO ACTION ON DELETE RESTRICT;
 
 ALTER TABLE public."productPhotos_tb"
-ADD CONSTRAINT "FK_productPhotos_tb_TO_users_tb_idUserUpdate" FOREIGN KEY ("idUserUpdate")
-REFERENCES public."users_tb" ("idUser") ON UPDATE NO ACTION ON DELETE RESTRICT;
+ADD CONSTRAINT "FK_productPhotos_tb_TO_user_entity_idUserUpdate" FOREIGN KEY ("idUserUpdate")
+REFERENCES public."user_entity" ("id") ON UPDATE NO ACTION ON DELETE RESTRICT;
+
 
 CREATE TABLE IF NOT EXISTS public."productStatuses_tb" (
     "idProductStatus" CHAR(5) NOT NULL,
