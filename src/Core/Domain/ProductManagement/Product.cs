@@ -7,19 +7,18 @@ namespace Domain.ProductManagement;
 
 public class Product : AggregateRoot<IdProduct>
 {
-    public virtual SerialNumber SerialNumber { get; set; } = null!;
-    public virtual string Name { get; set; } = null!;
-    public virtual string? Description { get; set; }
-    public virtual IdCategory IdCategory { get; set; } = null!;
-    //public virtual Category Category { get; set; } = null!;
-    public virtual ProductStatus ProductStatus { get; set; } = null!;
-    public virtual Dimension Dimension { get; set; } = null!;
-    public virtual IdUser IdUserCreate { get; set; } = null!;
-    public virtual IdUser? IdUserUpdate { get; set; }
+    public virtual SerialNumber SerialNumber { get; private set; } = null!;
+    public virtual string Name { get; private set; } = null!;
+    public virtual string? Description { get; private set; }
+    public virtual IdCategory IdCategory { get; private set; } = null!;
+    public virtual ProductStatus ProductStatus { get; private set; } = null!;
+    public virtual Dimension Dimension { get; private set; } = null!;
+    public virtual IdUser IdUserCreate { get; private set; } = null!;
+    public virtual IdUser? IdUserUpdate { get; private set; }
 
-    public virtual ICollection<ProductPhoto> ProductPhotos { get; set; } = [];
+    public virtual ICollection<ProductPhoto> ProductPhotos { get; private set; } = [];
 
-    public Product() : base(new IdProduct())
+    protected Product() : base(new IdProduct())
     {
     }
 
@@ -57,6 +56,12 @@ public class Product : AggregateRoot<IdProduct>
     public virtual void UpdateName(string name)
     {
         Name = name;
+    }
+
+    public void UpdatePhoto(IdProductPhoto idProductPhoto, string name)
+    {
+        var productPhoto = ProductPhotos.FirstOrDefault(pp => pp.Id == idProductPhoto);
+        productPhoto?.UpdateName(name);
     }
 }
 

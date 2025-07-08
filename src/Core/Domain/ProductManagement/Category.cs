@@ -6,11 +6,11 @@ namespace Domain.ProductManagement;
 
 public class Category : AggregateRoot<IdCategory>
 {
-    public virtual string Name { get; set; } = null!;
-    public virtual string? Description { get; set; }
-    public virtual bool IsEnabled { get; set; }
-    public virtual IdUser IdUserCreate { get; set; } = null!;
-    public virtual IdUser? IdUserUpdate { get; set; }
+    public virtual string Name { get; private set; } = null!;
+    public virtual string? Description { get; private set; }
+    public virtual bool IsEnabled { get; private set; }
+    public virtual IdUser IdUserCreate { get; private set; } = null!;
+    public virtual IdUser? IdUserUpdate { get; private set; }
 
     public Category? CategoryParent { get; private set; }
     public ICollection<Category> SubCategories { get; private set; } = [];

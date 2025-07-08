@@ -65,6 +65,17 @@ public class ProductController(ISender sender, ILogger<ProductController> logger
         Result response = await sender.Send(command, cancellationToken);
         return response.IsSuccess ? Created() : BadRequest(response.Error);
     }
+
+
+    [HttpPost("[action]")]
+    [Authorize(Roles = Permission.AmerAntiqueDesign_ProductManagement_Writer)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdatePhoto([FromBody] UpdatePhotoCommand command, CancellationToken cancellationToken)
+    {
+        Result response = await sender.Send(command, cancellationToken);
+        return response.IsSuccess ? Created() : BadRequest(response.Error);
+    }
     #endregion Commands
 
 

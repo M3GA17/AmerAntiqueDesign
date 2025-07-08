@@ -32,4 +32,9 @@ public class ProductPhoto : Entity<IdProductPhoto>
 
         return productPhoto;
     }
+
+    internal void UpdateName(string name)
+    {
+        Name = name;
+    }
 }

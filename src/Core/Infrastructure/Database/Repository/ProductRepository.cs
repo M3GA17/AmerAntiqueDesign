@@ -22,7 +22,7 @@ public class ProductRepository(ApplicationDbContext dbContext, IConfiguration co
 
     public async Task<Product?> GetAsync(IdProduct id, CancellationToken cancellationToken)
     {
-        return await dbContext.Products.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        return await dbContext.Products.Include(p => p.ProductPhotos).FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
     public async Task<IEnumerable<Product>> GetListAsync(CancellationToken cancellationToken)
     {
