@@ -17,4 +17,6 @@ public enum ValidationExceptionCode
     #endregion ProductManagement
 
 
+    ErrorProductNameCannotBeNull,
+    ErrorProductNameTooLong
 }

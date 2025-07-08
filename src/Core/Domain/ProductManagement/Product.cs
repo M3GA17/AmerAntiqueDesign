@@ -6,7 +6,7 @@ using Shared.ValueObjects;
 
 namespace Domain.ProductManagement;
 
-public class Product : AggregateRoot<IdProduct>
+public class Product : AggregateRoot<IdProduct, IdUser>
 {
     public virtual SerialNumber SerialNumber { get; private set; } = null!;
     public virtual string Name { get; private set; } = null!;
@@ -14,35 +14,22 @@ public class Product : AggregateRoot<IdProduct>
     public virtual IdCategory IdCategory { get; private set; } = null!;
     public virtual ProductStatus ProductStatus { get; private set; } = null!;
     public virtual Dimension Dimension { get; private set; } = null!;
-    public virtual IdUser IdUserCreate { get; private set; } = null!;
-    public virtual IdUser? IdUserUpdate { get; private set; }
     public virtual ICollection<ProductPhoto> ProductPhotos { get; private set; } = [];
 
     protected Product() : base(new IdProduct())
     { }
 
-    //public virtual void Validate()
-    //{
-    //    var validationResult = ValidateInternal();
-    //    if (!validationResult.IsValid)
-    //    {
-    //        throw new DomainValidationException(validationResult.Errors);
-    //    }
-    //}
-
-
     public static Product Create(SerialNumber serialNumber, string name, string? description, IdCategory idCategory,
                           ProductStatus productStatus, Dimension dimension, IdUser idUserCreate, DateTimeOffset dateCreate)
     {
-        var validation = new ValidationExceptionCollection();
+        var validate = new ValidationExceptionCollection();
 
-        //if ()
-        //{
+        if (string.IsNullOrWhiteSpace(name))
+            validate.AddError(nameof(name), ValidationExceptionCode.ErrorProductNameCannotBeNull);
+        if (name.Length > 200)
+            validate.AddError(nameof(name), ValidationExceptionCode.ErrorProductNameTooLong);
 
-        //}
-
-        //ValidationError validation = Validate()
-
+        validate.TryThrow();
 
         var product = new Product
         {
@@ -72,10 +59,24 @@ public class Product : AggregateRoot<IdProduct>
         DateUpdate = dateUpdate;
     }
 
-    public void UpdatePhoto(IdProductPhoto idProductPhoto, string name)
+    public virtual void AddProductPhoto(string name, string url, bool isMain, int displayOrder, IdUser idUserUpdate, DateTimeOffset dateUpdate)
     {
-        var productPhoto = ProductPhotos.FirstOrDefault(pp => pp.Id == idProductPhoto);
-        productPhoto?.UpdateName(name);
+        var productPhoto = ProductPhoto.Create(this, name, url, isMain, displayOrder, idUserUpdate, dateUpdate);
+
+
+
+
+        ProductPhotos.Add(productPhoto);
+        IdUserUpdate = idUserUpdate;
+        DateUpdate = dateUpdate;
+    }
+
+    public virtual void UpdateProductPhoto(IdProductPhoto idProductPhoto, string name, string url, bool isMain, int displayOrder, IdUser idUserUpdate, DateTimeOffset dateUpdate)
+    {
+        var productPhoto = ProductPhotos.FirstOrDefault(p => p.Id.Equals(idProductPhoto));
+        productPhoto.Update(name, url, isMain, displayOrder, idUserUpdate, dateUpdate);
+        IdUserUpdate = idUserUpdate;
+        DateUpdate = dateUpdate;
     }
 }
 

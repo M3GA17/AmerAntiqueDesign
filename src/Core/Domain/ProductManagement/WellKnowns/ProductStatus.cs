@@ -4,15 +4,8 @@ using Shared.Primitives;
 namespace Domain.ProductManagement;
 
 
-public class ProductStatus : WellKnown<string, IdProductStatus, ProductStatus>
+public class ProductStatus(IdProductStatus idProductStatus, string statusName) : WellKnown<string, IdProductStatus, ProductStatus>(idProductStatus)
 {
-    public virtual string StatusName { get; protected set; }
-
-    public ProductStatus(IdProductStatus idProductStatus, string statusName) : base(idProductStatus)
-    {
-        StatusName = statusName;
-    }
-
     public static readonly ProductStatus Null = new(new IdProductStatus("PsNll"), "Null");
     public static readonly ProductStatus Draft = new(new IdProductStatus("PsDrf"), "Draft");
     public static readonly ProductStatus Repair = new(new IdProductStatus("PsRpr"), "Repair");

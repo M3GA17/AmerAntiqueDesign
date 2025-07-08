@@ -9,33 +9,17 @@ public sealed record SerialNumber
     public string Value { get; }
     private SerialNumber(string value) => Value = value;
 
-
     public static SerialNumber Create(string serialNumber)
     {
         var validate = new ValidationExceptionCollection();
 
         if (string.IsNullOrEmpty(serialNumber))
-        {
-            throw new ValidationException(ValidationExceptionCode.ErrorSerialNumberCannotBeNull);
-        }
+            validate.AddError(nameof(serialNumber), ValidationExceptionCode.ErrorSerialNumberCannotBeNull);
         if (serialNumber.Length > MaxLength)
-        {
-            throw new ValidationException(ValidationExceptionCode.ErrorSerialNumberInvalidLength);
-        }
+            validate.AddError(nameof(serialNumber), ValidationExceptionCode.ErrorSerialNumberInvalidLength);
+
+        validate.TryThrow();
 
         return new SerialNumber(serialNumber.PadLeft(MaxLength, '0'));
     }
-
-    //public static Result<SerialNumber> Create(string serialNumber)
-    //{
-    //    if (string.IsNullOrEmpty(serialNumber))
-    //    {
-    //        return Result.Failure<SerialNumber>(SerialNumberErrors.Empty);
-    //    }
-    //    if (serialNumber.Length > MaxLength)
-    //    {
-    //        return Result.Failure<SerialNumber>(SerialNumberErrors.MaxLength);
-    //    }
-    //    return new SerialNumber(serialNumber.PadLeft(MaxLength, '0'));
-    //}
 }

@@ -2,7 +2,7 @@
 public abstract class ValueObject : IEquatable<ValueObject>
 {
     // Cache del hash per performance
-    private int? cachedHashCode;
+    private int? CachedHashCode { get; set; }
     public abstract IEnumerable<object> GetEqualityComponents();
     public override bool Equals(object? obj)
     {
@@ -22,16 +22,13 @@ public abstract class ValueObject : IEquatable<ValueObject>
     }
     public override int GetHashCode()
     {
-        if (!cachedHashCode.HasValue)
-        {
-            cachedHashCode = GetEqualityComponents()
-                .Select(x => x?.GetHashCode() ?? 0)
-                .Aggregate((x, y) => HashCode.Combine(x, y));
-        }
-        return cachedHashCode.Value;
+        CachedHashCode ??= GetEqualityComponents()
+            .Select(x => x?.GetHashCode() ?? 0)
+            .Aggregate(HashCode.Combine);
+        return CachedHashCode.Value;
     }
 
-    // Operatori per comodità
+
     public static bool operator ==(ValueObject? left, ValueObject? right)
     {
         if (left is null && right is null) return true;
@@ -42,7 +39,4 @@ public abstract class ValueObject : IEquatable<ValueObject>
     {
         return !(left == right);
     }
-
-    // Metodo di utilità per clonazione
-    //protected abstract ValueObject Clone();
 }

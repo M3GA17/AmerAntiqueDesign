@@ -18,16 +18,13 @@ public class ValidationException : Exception, IBaseException
 
 public class ValidationExceptionCollection : Exception
 {
-    public IDictionary<string, ICollection<IBaseException>> Errors { get; set; }
-            = new Dictionary<string, ICollection<IBaseException>>();
+    public IDictionary<string, ICollection<IBaseException>> Errors { get; set; } = new Dictionary<string, ICollection<IBaseException>>();
     public bool HasErrors => Errors.Any();
 
     public ValidationExceptionCollection()
     { }
-    public ValidationExceptionCollection(string subject, ValidationExceptionCode code, params object[] additionalInfo)
-            : this(subject, new ValidationException(code, additionalInfo))
+    public ValidationExceptionCollection(string subject, ValidationExceptionCode code, params object[] additionalInfo) : this(subject, new ValidationException(code, additionalInfo))
     { }
-
     public ValidationExceptionCollection(string subject, params IBaseException[] errors)
     {
         foreach (var error in errors)
@@ -36,7 +33,13 @@ public class ValidationExceptionCollection : Exception
         }
     }
 
-    public void AddError(string subject, IBaseException error)
+    public void TryThrow()
+    {
+        if (HasErrors) throw this;
+    }
+    public void AddError(string subject, ValidationExceptionCode code, params object[] additionalInfo)
+    => AddError(subject, new ValidationException(code, additionalInfo));
+    private void AddError(string subject, IBaseException error)
     {
         if (Errors.ContainsKey(subject))
             Errors[subject].Add(error);
