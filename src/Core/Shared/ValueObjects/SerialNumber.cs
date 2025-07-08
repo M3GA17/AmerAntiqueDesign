@@ -1,4 +1,6 @@
-﻿namespace Shared.ValueObjects;
+﻿using Shared.Base.Validation;
+
+namespace Shared.ValueObjects;
 
 public sealed record SerialNumber
 {
@@ -10,6 +12,17 @@ public sealed record SerialNumber
 
     public static SerialNumber Create(string serialNumber)
     {
+        var validate = new ValidationExceptionCollection();
+
+        if (string.IsNullOrEmpty(serialNumber))
+        {
+            throw new ValidationException(ValidationExceptionCode.ErrorSerialNumberCannotBeNull);
+        }
+        if (serialNumber.Length > MaxLength)
+        {
+            throw new ValidationException(ValidationExceptionCode.ErrorSerialNumberInvalidLength);
+        }
+
         return new SerialNumber(serialNumber.PadLeft(MaxLength, '0'));
     }
 

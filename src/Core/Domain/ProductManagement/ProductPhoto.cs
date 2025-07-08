@@ -6,6 +6,8 @@ namespace Domain.ProductManagement;
 
 public class ProductPhoto : Entity<IdProductPhoto>
 {
+    public override IdUser we { get; }
+
     public Product Product { get; set; } = null!;
     public string Name { get; set; } = null!;
     public string Url { get; set; } = null!;

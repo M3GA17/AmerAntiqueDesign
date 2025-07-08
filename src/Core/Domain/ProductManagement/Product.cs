@@ -1,5 +1,6 @@
 ﻿using Domain.ProductManagement.ValueObjects;
 using Domain.UserManagement;
+using Shared.Base.Validation;
 using Shared.Primitives;
 using Shared.ValueObjects;
 
@@ -15,16 +16,34 @@ public class Product : AggregateRoot<IdProduct>
     public virtual Dimension Dimension { get; private set; } = null!;
     public virtual IdUser IdUserCreate { get; private set; } = null!;
     public virtual IdUser? IdUserUpdate { get; private set; }
-
     public virtual ICollection<ProductPhoto> ProductPhotos { get; private set; } = [];
 
     protected Product() : base(new IdProduct())
-    {
-    }
+    { }
+
+    //public virtual void Validate()
+    //{
+    //    var validationResult = ValidateInternal();
+    //    if (!validationResult.IsValid)
+    //    {
+    //        throw new DomainValidationException(validationResult.Errors);
+    //    }
+    //}
+
 
     public static Product Create(SerialNumber serialNumber, string name, string? description, IdCategory idCategory,
                           ProductStatus productStatus, Dimension dimension, IdUser idUserCreate, DateTimeOffset dateCreate)
     {
+        var validation = new ValidationExceptionCollection();
+
+        //if ()
+        //{
+
+        //}
+
+        //ValidationError validation = Validate()
+
+
         var product = new Product
         {
             SerialNumber = serialNumber,
@@ -51,11 +70,6 @@ public class Product : AggregateRoot<IdProduct>
         Dimension = dimension;
         IdUserUpdate = idUserUpdate;
         DateUpdate = dateUpdate;
-    }
-
-    public virtual void UpdateName(string name)
-    {
-        Name = name;
     }
 
     public void UpdatePhoto(IdProductPhoto idProductPhoto, string name)

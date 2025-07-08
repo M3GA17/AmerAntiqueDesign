@@ -2,6 +2,8 @@
 
 public interface IAggregateRoot
 {
-    public void IncrementVersion();
-    public int DatabaseVersion { get; protected set; }
+    int DatabaseVersion { get; protected set; }
+    void IncrementVersion();
+    void RaiseDomainEvent(IDomainEvent domainEvent);
+    void ClearDomainEvents();
 }

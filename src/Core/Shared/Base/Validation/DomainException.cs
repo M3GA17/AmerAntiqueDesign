@@ -1,4 +1,5 @@
 ﻿
+using Shared.Base.Interfaces;
 using Shared.Base.Validation;
 
 namespace Shared.Base
@@ -6,8 +7,8 @@ namespace Shared.Base
     public class DomainException : Exception, IBaseException
     {
         public string Code => ExceptionCode?.ToString() ?? string.Empty;
-        public object[] AdditionalInfo { get; } = [];
-        public DomainExceptionCode? ExceptionCode { get; }
+        public object[] AdditionalInfo { get; private set; } = [];
+        public DomainExceptionCode? ExceptionCode { get; private set; }
 
         public DomainException(DomainExceptionCode code, params object[] parameters) : this(code.ToString(), code, parameters) { }
         public DomainException(string errorMessage, Exception innerException) : base(errorMessage, innerException) { }

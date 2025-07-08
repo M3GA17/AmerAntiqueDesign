@@ -1,4 +1,4 @@
-﻿namespace Shared.Base.Validation;
+﻿namespace Shared.Base.Interfaces;
 
 public interface IBaseException
 {
