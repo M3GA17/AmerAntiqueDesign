@@ -1,4 +1,5 @@
 ﻿namespace Shared.Primitives;
+
 public abstract class ValueObject : IEquatable<ValueObject>
 {
     // Cache del hash per performance
