@@ -1,5 +1,5 @@
 ﻿using Domain.ProductManagement.ValueObjects;
-using Shared.Base;
+using Shared.Base.Interfaces;
 
 namespace Domain.ProductManagement.DomainEvents;
 

@@ -1,4 +1,4 @@
-﻿using Shared.Base;
+﻿using Shared.Base.Interfaces;
 
 namespace Domain.UserManagement.Repositories;
 

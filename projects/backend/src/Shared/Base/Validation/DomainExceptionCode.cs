@@ -3,7 +3,7 @@
     public enum DomainExceptionCode
     {
         //Generic domain errors
-        DomainUnexpectedError,
+        Domain_Unexpected_Error,
 
         //Product errors
         Error_Product_Name_Required,

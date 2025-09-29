@@ -1,6 +1,6 @@
 ﻿using Shared.Primitives;
 
-namespace Shared.Base;
+namespace Shared.Base.Interfaces;
 
 public interface IBaseRepository<T, in TId> where T : AggregateRoot<TId> where TId : ValueObject
 {

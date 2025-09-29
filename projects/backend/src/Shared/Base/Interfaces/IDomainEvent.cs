@@ -1,5 +1,5 @@
 ﻿using MediatR;
-namespace Shared.Base;
+namespace Shared.Base.Interfaces;
 
 public interface IDomainEvent : INotification
 {

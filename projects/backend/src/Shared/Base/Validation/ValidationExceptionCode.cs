@@ -3,7 +3,7 @@
 public enum ValidationExceptionCode
 {
     //Generic validation errors
-    ValidationUnexpectedError,
+    Validation_Unexpected_Error,
 
     #region ProductManagement
 
