@@ -22,7 +22,6 @@ public class ProductRepository(ApplicationDbContext dbContext, IConfiguration co
         return await dbContext.Products
             .AnyAsync(p => p.Id == id, cancellationToken);
     }
-
     public async Task<Product?> GetAsync(IdProduct id, CancellationToken cancellationToken)
     {
         return await dbContext.Products
@@ -33,7 +32,6 @@ public class ProductRepository(ApplicationDbContext dbContext, IConfiguration co
         return await dbContext.Products
             .AsNoTracking().ToListAsync(cancellationToken);
     }
-
     public async Task RemoveAsync(IdProduct id, CancellationToken cancellationToken)
     {
         var product = await dbContext.Products

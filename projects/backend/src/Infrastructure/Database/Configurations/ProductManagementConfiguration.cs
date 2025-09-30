@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shared.ValueObjects;
 
-namespace Infrastructure.Database;
+namespace Infrastructure.Database.Configurations;
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
@@ -26,6 +26,13 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             dimensionBuilder.Property(d => d.Depth).HasColumnName("depth").IsRequired();
             dimensionBuilder.Property(d => d.IsBulky).HasColumnName("isBulky").IsRequired();
         });
+        builder.Property(p => p.DatabaseVersion).HasColumnName("databaseVersion").IsRequired();
+        builder.Property(p => p.IdUserCreate).HasColumnName("idUserCreate").IsRequired()
+                                             .HasConversion(id => id.Value.ToString(), value => new IdUser(new Guid(value)));
+        builder.Property(p => p.DateCreate).HasColumnName("dateCreate").IsRequired();
+        builder.Property(p => p.IdUserUpdate).HasColumnName("idUserUpdate")
+                                             .HasConversion(id => id != null ? id.Value.ToString() : (string?)null, value => value != null ? new IdUser(new Guid(value)) : null);
+        builder.Property(p => p.DateUpdate).HasColumnName("dateUpdate");
         builder.Property(p => p.DatabaseVersion).HasColumnName("databaseVersion").IsRequired();
     }
 }

@@ -1,14 +1,13 @@
-﻿using Shared.ValueObjects;
-namespace Domain.ProductManagement.ValueObjects;
+﻿namespace Shared.ValueObjects;
 
-public class IdProduct : BaseId<Guid>
+public class IdUser : BaseId<Guid>
 {
-    public IdProduct()
+    public IdUser()
         : base(Guid.NewGuid())
     {
         Value = Guid.NewGuid();
     }
-    public IdProduct(Guid value)
+    public IdUser(Guid value)
         : base(value)
     {
     }

@@ -36,7 +36,6 @@ public class Product : AggregateRoot<IdProduct>
 
         return product;
     }
-
     public virtual void Update(SerialNumber serialNumber, string name, string description, Dimension dimension, bool isEnabled)
     {
         SerialNumber = serialNumber;

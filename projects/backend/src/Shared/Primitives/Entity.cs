@@ -1,4 +1,5 @@
 ﻿using Shared.Primitives.Interfaces;
+using Shared.ValueObjects;
 
 namespace Shared.Primitives;
 
@@ -6,6 +7,11 @@ public abstract class Entity<TId>(TId id) : IEquatable<Entity<TId>>, IEntity<TId
     where TId : ValueObject
 {
     public virtual TId Id { get; } = id;
+    public virtual DateTimeOffset DateCreate { get; set; }
+    public virtual IdUser IdUserCreate { get; set; } = null!;
+    public virtual DateTimeOffset? DateUpdate { get; set; }
+    public virtual IdUser? IdUserUpdate { get; set; }
+
     public override bool Equals(object? obj)
     {
         if (obj is not Entity<TId> other) return false;
@@ -39,6 +45,11 @@ public abstract class Entity<TId1, TId2>(TId1 id1, TId2 id2) : IEquatable<Entity
 {
     public virtual TId1 Id1 { get; } = id1;
     public virtual TId2 Id2 { get; } = id2;
+    public virtual DateTimeOffset DateCreate { get; set; }
+    public virtual IdUser IdUserCreate { get; set; } = null!;
+    public virtual DateTimeOffset? DateUpdate { get; set; }
+    public virtual IdUser? IdUserUpdate { get; set; }
+
     public override bool Equals(object? obj)
     {
         if (obj is not Entity<TId1, TId2> other) return false;

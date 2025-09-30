@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Base.Validation;
 
-namespace WebApi.Controllers;
+namespace WebApi.Controllers.ProductManagement;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductController(ISender sender, ILogger<ProductController> logger) : ControllerBase
+public class ProductController(ISender sender) : ControllerBase
 {
     #region Queries
     [HttpGet("[action]")]

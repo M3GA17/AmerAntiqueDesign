@@ -4,8 +4,9 @@ using System.Collections.ObjectModel;
 namespace Shared.Primitives;
 
 public abstract class WellKnown<T, ID, TInstance>(ID id)
-                                where ID : BaseId<T>
-                                where TInstance : WellKnown<T, ID, TInstance>
+    where T : notnull
+    where ID : BaseId<T>
+    where TInstance : WellKnown<T, ID, TInstance>
 {
     public ID Id { get; } = id;
 
