@@ -15,7 +15,7 @@ public class UpdateProductCommandHandler(IProductRepository productRepository) :
 
         var product = await productRepository.GetAsync(new IdProduct(command.IdProduct), cancellationToken);
 
-        product.UpdateName(command.Name);
+        //product.UpdateName(command.Name);
 
         //var serialNumber = await productRepository.GetNextSerialNumberAsync(cancellationToken);
         //var productStatus = ProductStatus.GetById(new IdProductStatus(command.IdProductStatus));

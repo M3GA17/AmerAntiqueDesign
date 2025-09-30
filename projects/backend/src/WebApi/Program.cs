@@ -56,10 +56,6 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        //app.MapGroup("api/identity")
-        //   .WithTags("Identity")
-        //   .MapIdentityApi<DomainUser>();
-
         app.MapControllers();
 
         app.Run();

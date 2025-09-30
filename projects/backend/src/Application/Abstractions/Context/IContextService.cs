@@ -1,8 +1,6 @@
-﻿using Domain.UserManagement;
-
-namespace Application.Abstractions.Context;
+﻿namespace Application.Abstractions.Context;
 
 public interface IContextService
 {
-    IdUser IdUser { get; }
+    //IdUser IdUser { get; }
 }

@@ -1,17 +1,15 @@
 ﻿namespace Shared.Primitives.Interfaces;
 
-public interface IAggregateRoot<out TId, TIdUser> : IEntity<TId, TIdUser>
+public interface IAggregateRoot<out TId> : IEntity<TId>
     where TId : ValueObject
-    where TIdUser : ValueObject
 {
     int DatabaseVersion { get; protected set; }
     void IncrementVersion();
 }
 
-public interface IAggregateRoot<out TId1, out TId2, TIdUser> : IEntity<TId1, TId2, TIdUser>
+public interface IAggregateRoot<out TId1, out TId2> : IEntity<TId1, TId2>
     where TId1 : ValueObject
     where TId2 : ValueObject
-    where TIdUser : ValueObject
 {
     int DatabaseVersion { get; protected set; }
     void IncrementVersion();

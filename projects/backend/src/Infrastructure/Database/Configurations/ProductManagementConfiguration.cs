@@ -1,6 +1,5 @@
 ﻿using Domain.ProductManagement;
 using Domain.ProductManagement.ValueObjects;
-using Domain.UserManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shared.ValueObjects;
@@ -20,9 +19,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.SerialNumber).HasColumnName("serialNumber").IsRequired().HasConversion(sn => sn.Value, value => SerialNumber.Create(value)).HasMaxLength(7);
         builder.Property(p => p.Name).HasColumnName("name").IsRequired().HasMaxLength(512);
         builder.Property(p => p.Description).HasColumnName("description").HasMaxLength(2048);
-        builder.Property(p => p.IdCategory).HasColumnName("idCategory").IsRequired().HasConversion(id => id.Value, value => new IdCategory(value));
-        builder.Property(p => p.ProductStatus).HasColumnName("idProductStatus").IsRequired()
-               .HasConversion(status => status.Id.Value, value => ProductStatus.GetById(new IdProductStatus(value))).HasMaxLength(5).IsFixedLength();
         builder.OwnsOne(p => p.Dimension, dimensionBuilder =>
         {
             dimensionBuilder.Property(d => d.Height).HasColumnName("height").IsRequired();
@@ -30,84 +26,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             dimensionBuilder.Property(d => d.Depth).HasColumnName("depth").IsRequired();
             dimensionBuilder.Property(d => d.IsBulky).HasColumnName("isBulky").IsRequired();
         });
-        builder.Property(p => p.IdUserCreate).HasColumnName("idUserCreate").IsRequired()
-            .HasConversion(id => id != null ? id.Value.ToString() : (string?)null, value => value != null ? new IdUser(new Guid(value)) : null);
-        builder.Property(p => p.DateCreate).HasColumnName("dateCreate").IsRequired();
-        builder.Property(p => p.IdUserUpdate).HasColumnName("idUserUpdate")
-               .HasConversion(id => id != null ? id.Value.ToString() : (string?)null, value => value != null ? new IdUser(new Guid(value)) : null);
-        builder.Property(p => p.DateUpdate).HasColumnName("dateUpdate");
         builder.Property(p => p.DatabaseVersion).HasColumnName("databaseVersion").IsRequired();
-
-        //builder.HasMany(p => p.ProductPhotos)
-        //  .WithOne(u => u.Product)
-        //  .HasForeignKey("idProductPhoto")
-        //  .HasConstraintName("FK_productPhotos_tb_TO_products_tb_idProduct");
     }
 }
-public class CategoryConfiguration : IEntityTypeConfiguration<Category>
-{
-    public void Configure(EntityTypeBuilder<Category> builder)
-    {
-        builder.ToTable("categories_tb");
-
-        builder.HasKey(c => c.Id).HasName("PK_categories_tb_idCategory");
-        builder.HasIndex(c => c.Name).IsUnique().HasDatabaseName("UI_categories_tb_name");
-
-        builder.Property(c => c.Id).HasColumnName("idCategory").IsRequired().HasConversion(id => id.Value, value => new IdCategory(value));
-        builder.Property(c => c.Name).HasColumnName("name").IsRequired().HasMaxLength(256);
-        builder.Property(c => c.Description).HasColumnName("description").HasMaxLength(1024);
-        builder.Property(c => c.IsEnabled).HasColumnName("isEnabled").IsRequired();
-        builder.Property(c => c.IdUserCreate).HasColumnName("idUserCreate").IsRequired()
-            .HasConversion(id => id != null ? id.Value.ToString() : (string?)null, value => value != null ? new IdUser(new Guid(value)) : null);
-        builder.Property(c => c.DateCreate).HasColumnName("dateCreate").IsRequired();
-        builder.Property(c => c.IdUserUpdate).HasColumnName("idUserUpdate")
-            .HasConversion(id => id != null ? id.Value.ToString() : (string?)null, value => value != null ? new IdUser(new Guid(value)) : null);
-        builder.Property(c => c.DateUpdate).HasColumnName("dateUpdate");
-        builder.Property(p => p.DatabaseVersion).HasColumnName("databaseVersion").IsRequired();
-        builder.HasOne(c => c.CategoryParent)
-               .WithMany(c => c.SubCategories)
-               .HasForeignKey("idCategoryParent")
-               .HasConstraintName("FK_categories_tb_TO_categories_tb_idCategoryParent")
-               .OnDelete(DeleteBehavior.Restrict);
-
-        //builder.Property(c => c.IdCategoryParent).HasColumnName("idCategoryParent").HasConversion(id => id != null ? id.Value : (Guid?)null,
-        //                                                                 value => value.HasValue ? new IdCategory(value.Value) : null);
-        //builder.HasOne(c => c.CategoryParent)
-        //       .WithMany(c => c.SubCategories)
-        //       .HasForeignKey(sc => sc.IdCategoryParent)
-        //       .HasConstraintName("FK_categories_tb_TO_categories_tb_idCategoryParent")
-        //       .OnDelete(DeleteBehavior.Restrict);
-    }
-
-}
-
-public class ProductPhotoConfiguration : IEntityTypeConfiguration<ProductPhoto>
-{
-    public void Configure(EntityTypeBuilder<ProductPhoto> builder)
-    {
-        builder.ToTable("productPhotos_tb");
-
-        builder.HasKey(p => p.Id).HasName("PK_productPhotos_tb_idProductPhoto");
-
-        builder.Property(p => p.Id).HasColumnName("idProductPhoto").IsRequired()
-            .HasConversion(id => id.Value, value => new IdProductPhoto(value));
-        builder.Property(p => p.Name).HasColumnName("name").IsRequired().HasMaxLength(512);
-        builder.Property(p => p.Url).HasColumnName("url").IsRequired().HasMaxLength(2048);
-        builder.Property(p => p.IsMain).HasColumnName("isMain").IsRequired();
-        builder.Property(p => p.DisplayOrder).HasColumnName("displayOrder").IsRequired();
-
-        builder.Property(p => p.IdUserCreate).HasColumnName("idUserCreate").IsRequired()
-            .HasConversion(id => id != null ? id.Value.ToString() : (string?)null, value => value != null ? new IdUser(new Guid(value)) : null);
-        builder.Property(p => p.DateCreate).HasColumnName("dateCreate").IsRequired();
-        builder.Property(p => p.IdUserUpdate).HasColumnName("idUserUpdate")
-               .HasConversion(id => id != null ? id.Value.ToString() : (string?)null, value => value != null ? new IdUser(new Guid(value)) : null);
-        builder.Property(p => p.DateUpdate).HasColumnName("dateUpdate");
-
-        builder.HasOne(pp => pp.Product)
-          .WithMany(p => p.ProductPhotos)
-          .HasForeignKey("idProduct")
-          .HasConstraintName("FK_productPhotos_tb_TO_products_tb_idProduct")
-          .OnDelete(DeleteBehavior.Restrict);
-    }
-}
-

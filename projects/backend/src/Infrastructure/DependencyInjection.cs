@@ -1,6 +1,5 @@
 ﻿using Application.Abstractions.UnitOfWork;
 using Domain.ProductManagement.Repositories;
-using Domain.UserManagement.Repositories;
 using Infrastructure.Database;
 using Infrastructure.Database.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +16,9 @@ public static class DependencyInjection
         #region DbContext
         string? connectionString = configuration.GetConnectionString("Default");
         services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
-
         #endregion DbContext
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
-        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
     }
 }

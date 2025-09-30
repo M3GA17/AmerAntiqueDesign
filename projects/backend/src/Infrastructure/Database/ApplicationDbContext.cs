@@ -1,8 +1,6 @@
 ﻿using Application.Abstractions.UnitOfWork;
 using Domain.ProductManagement;
-using Domain.UserManagement;
 using Microsoft.EntityFrameworkCore;
-using Shared.Primitives.Interfaces;
 
 namespace Infrastructure.Database;
 
@@ -17,8 +15,6 @@ public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext>
     //}
 
     public virtual DbSet<Product> Products { get; set; }
-    public virtual DbSet<Category> Categories { get; set; }
-    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -34,20 +30,20 @@ public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext>
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        IncrementDatabaseVersion();
+        //IncrementDatabaseVersion();
         return await base.SaveChangesAsync(cancellationToken);
     }
-    private void IncrementDatabaseVersion()
-    {
-        foreach (var entry in ChangeTracker.Entries())
-        {
-            //&& entry.State == EntityState.Modified
-            if (entry.Entity is IAggregateRoot aggregateRoot && (entry.State != EntityState.Added || entry.State != EntityState.Deleted))
-            {
-                aggregateRoot.IncrementVersion();
-            }
-        }
-    }
+    //private void IncrementDatabaseVersion()
+    //{
+    //    //foreach (var entry in ChangeTracker.Entries())
+    //    //{
+    //    //    //&& entry.State == EntityState.Modified
+    //    //    if (entry.Entity is IAggregateRoot aggregateRoot && (entry.State != EntityState.Added || entry.State != EntityState.Deleted))
+    //    //    {
+    //    //        aggregateRoot.IncrementVersion();
+    //    //    }
+    //    //}
+    //}
 }
 
 
