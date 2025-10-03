@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Sidebar } from "@/components/sidebar";
-import { Breadcrumb } from "@/components/breadcrumb";
+import { SidebarProvider } from "@/components/sidebar-provider";
+import { DashboardLayout } from "@/components/dashboard-layout";
 
 export const metadata: Metadata = {
   title: "AmerAntique Dashboard",
@@ -23,19 +23,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex h-screen overflow-hidden">
-            <Sidebar />
-            <div className="flex flex-1 flex-col overflow-hidden">
-              {/* Top Bar */}
-              <header className="flex h-16 items-center border-b bg-card px-6">
-                <Breadcrumb />
-              </header>
-              {/* Main Content */}
-              <main className="flex-1 overflow-y-auto p-6">
-                {children}
-              </main>
-            </div>
-          </div>
+          <SidebarProvider>
+            <DashboardLayout>
+              {children}
+            </DashboardLayout>
+          </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>
