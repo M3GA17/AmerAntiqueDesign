@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100">
+  <defs>
+    <style>
+	  .d-left {
+        fill: #dbeff6;
+      }
+	  .d-center {
+        fill: #93cfe5;
+      }
+      .d-middle {
+        fill: #b8dfee;
+      }
+      .d-right {
+        fill: #93d0e5;
+      }
+	  .title {
+		fill: #fff;
+		fill-rule: evenodd;
+	  }
+      .subTitle {
+        font-family: Caladea-Regular, Caladea;
+        font-size: 86px;
+		fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Logo">
+	<g id="Amer">
+		<path class="title" d="M40.82 79.46 L25.93 79.46 L21.17 89.86 L5 89.86 L39.85 13.55 L40.82 13.55 L40.82 46.05 L31.75 66.71 L40.82 66.71 L40.82 79.46 Z"/>
+		<path class="title" d="M125.36 13.55 L89.74 62.74 L54.08 13.55 L53.25 13.55 L53.25 89.86 L68.22 89.86 L68.22 57.43 L89.7 88.61 L89.79 88.61 L111.22 57.43 L111.22 89.86 L126.19 89.86 L126.19 13.55 L125.36 13.55 Z"/>
+		<path class="title" d="M138.62,89.86h30.64v-15.24h-30.64v15.24ZM138.62,58.85h26.29v-15.29h-26.29v15.29ZM138.62,28.65h30.64v-15.1h-30.64v15.1Z"/>
+		<path class="title" d="M181.68,13.55h9.19c14.25,0,25.94,10.98,25.94,24.71,0,9.8-5.92,18.37-14.11,21.26l21.68,30.34h-18.75l-23.96-35.59v-6.35l9.47.05c5.21.05,9.85-4.17,9.85-9.61s-4.69-9.61-9.85-9.61h-9.47v-15.2Z"/>
+	</g>
+	<g id="Diamond">
+		<polygon class="d-left" points="67.13 14.74 87.33 42.88 79.14 14.74 67.13 14.74"/>
+		<polygon class="d-left" points="74.95 3.42 67.36 12.47 78.35 12.47 74.95 3.42"/>
+		<polygon class="d-middle" points="76.79 2.52 80.18 11.55 87.58 2.52 76.79 2.52"/>
+		<polygon class="d-middle" points="81.25 14.74 89.72 43.84 98.19 14.74 81.25 14.74"/>
+		<polygon class="d-middle" points="91.87 2.52 99.26 11.55 102.65 2.52 91.87 2.52"/>
+		<polygon class="d-center" points="89.72 3.12 82.16 12.47 97.28 12.47 89.72 3.12"/>
+		<polygon class="d-right" points="100.3 14.74 92.11 42.88 112.31 14.74 100.3 14.74"/>
+		<polygon class="d-right" points="104.49 3.42 101.09 12.47 112.08 12.47"/>
+	</g>
+	<g id="AntiqueDesign">
+		<text class="subTitle" transform="translate(252.1 82.24)"><tspan x="0" y="0">ANTIQUE &amp; DESIGN</tspan></text>
+	</g>
+  </g>
+</svg>

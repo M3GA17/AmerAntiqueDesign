@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #b9dfee;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        fill: #93cfe4;
+      }
+
+      .cls-3 {
+        fill: #daeff6;
+      }
+
+      .cls-4 {
+        fill: #93cfe5;
+      }
+    </style>
+  </defs>
+  <g id="Diamond">
+    <polygon class="cls-3" points="141.21 390.95 497.79 887.7 353.22 390.95 141.21 390.95"/>
+    <polygon class="cls-1" points="390.55 390.95 540.02 904.76 689.5 390.95 390.55 390.95"/>
+    <polygon class="cls-2" points="726.83 390.95 582.27 887.7 938.79 390.95 726.83 390.95"/>
+    <path class="cls-2" d="M800.83,191.19l-60.09,159.79c69.23-1.91,126.49,1.6,194.06,0l-133.97-159.79Z"/>
+    <polygon class="cls-1" points="577.9 175.24 708.38 334.67 768.3 175.24 577.9 175.24"/>
+    <polygon class="cls-4" points="540.02 185.94 406.54 350.98 673.51 350.98 540.02 185.94"/>
+    <polygon class="cls-1" points="311.7 175.24 371.67 334.67 502.15 175.24 311.7 175.24"/>
+    <polygon class="cls-3" points="279.22 191.19 145.25 350.98 339.31 350.98 279.22 191.19"/>
+  </g>
+</svg>

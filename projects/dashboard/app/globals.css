@@ -1,52 +1,55 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: oklch(100% 0 0);
-  --color-foreground: oklch(9% 0 0);
-  --color-card: oklch(100% 0 0);
-  --color-card-foreground: oklch(9% 0 0);
-  --color-popover: oklch(100% 0 0);
-  --color-popover-foreground: oklch(9% 0 0);
-  --color-primary: oklch(17% 0 0);
-  --color-primary-foreground: oklch(98% 0 0);
-  --color-secondary: oklch(96% 0 0);
-  --color-secondary-foreground: oklch(17% 0 0);
-  --color-muted: oklch(96% 0 0);
-  --color-muted-foreground: oklch(47% 0 0);
-  --color-accent: oklch(96% 0 0);
-  --color-accent-foreground: oklch(17% 0 0);
-  --color-destructive: oklch(55% 0.22 25);
-  --color-destructive-foreground: oklch(98% 0 0);
-  --color-border: oklch(91% 0 0);
-  --color-input: oklch(91% 0 0);
-  --color-ring: oklch(9% 0 0);
-  --radius: 0.5rem;
+    --color-background: oklch(99.66% 0 0); /* #fafafa */
+    --color-foreground: oklch(14.86% 0 0); /* #1a1a1a */
+    --color-card: oklch(99.55% 0.016 93.3); /* #fff8e7 */
+    --color-card-foreground: oklch(14.86% 0 0); /* #1a1a1a */
+    --color-popover: oklch(99.55% 0.016 93.3); /* #fff8e7 */
+    --color-popover-foreground: oklch(14.86% 0 0); /* #1a1a1a */
+    --color-primary: oklch(75.52% 0.089 79.5); /* #b8944d */
+    --color-primary-foreground: oklch(14.86% 0 0); /* #1a1a1a */
+    --color-secondary: oklch(56.73% 0.052 70.8); /* #8b7355 */
+    --color-secondary-foreground: oklch(99.66% 0 0); /* #ffffff */
+    --color-muted: oklch(91% 0 0); /* Gray for muted */
+    --color-muted-foreground: oklch(47% 0 0); /* Darker gray for muted text */
+    --color-accent: oklch(96% 0 0); /* Lighter accent */
+    --color-accent-foreground: oklch(17% 0 0); /* Dark accent text */
+    --color-destructive: oklch(55% 0.22 25); /* Default destructive */
+    --color-destructive-foreground: oklch(
+        98% 0 0
+    ); /* White for destructive text */
+    --color-border: oklch(82.68% 0.11 82.2); /* #c9a961 */
+    --color-input: oklch(82.68% 0.11 82.2); /* #c9a961 */
+    --color-ring: oklch(75.52% 0.089 79.5); /* Primary color for ring/focus */
+    --radius: 0.5rem;
 }
 
 .dark {
-  --color-background: oklch(9% 0 0);
-  --color-foreground: oklch(98% 0 0);
-  --color-card: oklch(9% 0 0);
-  --color-card-foreground: oklch(98% 0 0);
-  --color-popover: oklch(9% 0 0);
-  --color-popover-foreground: oklch(98% 0 0);
-  --color-primary: oklch(98% 0 0);
-  --color-primary-foreground: oklch(17% 0 0);
-  --color-secondary: oklch(18% 0 0);
-  --color-secondary-foreground: oklch(98% 0 0);
-  --color-muted: oklch(18% 0 0);
-  --color-muted-foreground: oklch(65% 0 0);
-  --color-accent: oklch(18% 0 0);
-  --color-accent-foreground: oklch(98% 0 0);
-  --color-destructive: oklch(40% 0.17 25);
-  --color-destructive-foreground: oklch(98% 0 0);
-  --color-border: oklch(18% 0 0);
-  --color-input: oklch(18% 0 0);
-  --color-ring: oklch(83% 0 0);
+    --color-background: #303033;
+    --color-foreground: #fefefe;
+    --color-card: #3a3026;
+    --color-card-foreground: #ffffff;
+    --color-popover: #1a1a1a;
+    --color-popover-foreground: #ffffff;
+    --color-primary: #b8944d;
+    --color-primary-foreground: #1a1a1a;
+    --color-secondary: #8b7355;
+    --color-secondary-foreground: #ffffff;
+    --color-muted: #303033;
+    --color-muted-foreground: #fefefe;
+    --color-accent: #303033; /* Dark accent */
+    --color-accent-foreground: #fefefe; /* White accent text */
+    --color-destructive: #303033; /* Default destructive (dark) */
+    --color-destructive-foreground: #fefefe;
+    --color-border: #b8944d;
+    --color-input: #b8944d;
+    --color-ring: #b8944d;
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
 }

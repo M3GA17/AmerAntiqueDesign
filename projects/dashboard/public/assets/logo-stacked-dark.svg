@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 973.54 543.38">
+  <defs>
+    <style>
+	  .d-left {
+        fill: #dbeff6;
+      }
+	  .d-center {
+        fill: #93cfe5;
+      }
+      .d-middle {
+        fill: #b8dfee;
+      }
+      .d-right {
+        fill: #93d0e5;
+      }
+	  .title {
+		fill: #000;
+		fill-rule: evenodd;
+	  }
+      .subTitle {
+        font-family: Caladea-Regular, Caladea;
+        font-size: 113.5px;
+		fill: #000;
+      }
+    </style>
+  </defs>
+  <g id="Logo">
+    <g id="Diamond">
+      <polygon class="d-left" points="277.25 54.07 366.62 178.57 330.39 54.07 277.25 54.07"/>
+	  <polygon class="d-left" points="311.84 4 278.26 44.05 326.9 44.05 311.84 4"/>
+      <polygon class="d-middle" points="339.75 54.07 377.21 182.85 414.67 54.07 339.75 54.07"/>
+      <polygon class="d-middle" points="386.7 0 419.41 39.96 434.42 0 386.7 0"/>
+	  <polygon class="d-middle" points="319.98 0 335.01 39.96 367.72 0 319.98 0"/>
+      <polygon class="d-center" points="377.21 2.68 343.75 44.05 410.67 44.05 377.21 2.68"/>
+	  <polygon class="d-right" points="424.03 54.07 387.8 178.57 477.16 54.07 424.03 54.07"/>
+	  <polygon class="d-right" points="442.58 4 427.52 44.05 476.16 44.05"/>
+    </g>
+	<g id="Amer">
+		<path class="title" d="M160.85 340.46 L94.94 340.46 L73.89 386.44 L2.35 386.44 L156.57 48.8 L160.85 48.8 L160.85 192.6 L120.69 284.05 L160.85 284.05 L160.85 340.46 Z"/>
+		<path class="title" d="M534.89 48.8 L377.31 266.47 L219.52 48.8 L215.84 48.8 L215.84 386.44 L282.06 386.44 L282.06 242.97 L377.1 380.93 L377.51 380.93 L472.34 242.97 L472.34 386.44 L538.56 386.44 L538.56 48.8 L534.89 48.8 Z"/>
+		<path class="title" d="M593.55,386.44h135.57v-67.44h-135.57v67.44ZM593.55,249.25h116.3v-67.65h-116.3v67.65ZM593.55,115.62h135.57V48.8h-135.57v66.82Z"/>
+		<path class="title" d="M784.11,48.8h40.66c63.05,0,114.78,48.59,114.78,109.34,0,43.36-26.18,81.27-62.42,94.05l95.93,134.26h-82.94l-106.01-157.47v-28.1l41.92.2c23.04.21,43.57-18.43,43.57-42.52s-20.74-42.52-43.57-42.52h-41.92V48.8Z"/>
+	</g>
+	<g id="AntiqueDesign">
+	    <text class="subTitle" transform="translate(0 518.17)"><tspan x="0" y="0">ANTIQUE &amp; DESIGN</tspan></text>
+	</g>
+  </g>
+</svg>
