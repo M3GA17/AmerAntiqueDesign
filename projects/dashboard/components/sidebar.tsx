@@ -57,12 +57,15 @@ export function Sidebar() {
         )}
       >
         {/* Logo and Toggle Button */}
-        <div className="flex h-16 items-center px-4">
+        <div className={cn(
+          "flex h-16 items-center",
+          isCollapsed ? "justify-center" : "px-4"
+        )}>
           {isCollapsed ? (
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
+              className="h-10 w-10"
               onClick={toggleCollapse}
             >
               <Menu className="h-5 w-5" />
@@ -95,8 +98,8 @@ export function Sidebar() {
                   <Link
                     href={item.href}
                     className={cn(
-                      "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                      isCollapsed ? "gap-0 justify-center" : "gap-3",
+                      "flex items-center rounded-lg text-sm font-medium transition-colors",
+                      isCollapsed ? "gap-0 justify-center h-10 w-10 mx-auto" : "gap-3 px-3 py-2",
                       isActive(item.href)
                         ? "bg-primary text-primary-foreground"
                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -126,8 +129,10 @@ export function Sidebar() {
                     <button
                       onClick={handleSubmenuClick}
                       className={cn(
-                        "flex w-full items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                        isCollapsed ? "gap-0 justify-center" : "gap-3 justify-between",
+                        "flex items-center rounded-lg text-sm font-medium transition-colors",
+                        isCollapsed 
+                          ? "gap-0 justify-center h-10 w-10 mx-auto" 
+                          : "w-full gap-3 justify-between px-3 py-2",
                         (pathname.startsWith("/products") || pathname.startsWith("/categories"))
                           ? "bg-accent text-accent-foreground"
                           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
