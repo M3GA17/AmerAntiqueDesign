@@ -1,24 +1,27 @@
+// File: projects/dashboard/src/components/layout/sidebar.tsx
+
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Home, Package, FolderTree, ChevronDown, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
-} from "../ui/collapsible";
+} from "@/components/ui/collapsible";
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "../ui/tooltip";
-import { useSidebar } from "@/providers/sidebar-provider"; // Importato useSidebar
-import { SidebarLink } from "./sidebar-link"; // Importato SidebarLink
+} from "@/components/ui/tooltip";
+import { useSidebar } from "@/providers/sidebar-provider";
+import { SidebarLink } from "./sidebar-link";
+import { NavSeparator } from "@/components/ui/separator";
 
 export function Sidebar() {
     const { theme } = useTheme();
@@ -26,6 +29,12 @@ export function Sidebar() {
     const { isCollapsed, toggleCollapse, expandSidebar } = useSidebar();
     const [isProductManagementOpen, setIsProductManagementOpen] =
         useState(true);
+
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const navigation = [
         {
@@ -49,19 +58,24 @@ export function Sidebar() {
         setIsProductManagementOpen(true);
     };
 
+    const logoSrc =
+        theme === "dark" ? "/assets/logo-light.svg" : "/assets/logo-dark.svg";
+
     return (
         <TooltipProvider delayDuration={0}>
             <div
                 className={cn(
-                    "flex h-screen flex-col border-r bg-card transition-all duration-300 shadow-xl", // Ombra leggera aggiunta
+                    "flex h-screen flex-col bg-card transition-all duration-300 shadow-xl relative", // Rimosso 'border-r' e aggiunto 'relative'
                     isCollapsed ? "w-20" : "w-64"
                 )}
             >
                 {/* Logo and Toggle Button */}
+                {/* NOTA: Il separatore orizzontale sotto l'intestazione è stato rimosso,
+                       quindi l'area del logo si unisce direttamente alla navigazione. */}
                 <div
                     className={cn(
                         "flex h-16 items-center",
-                        isCollapsed ? "justify-center" : "px-2" // Margini ristretti
+                        isCollapsed ? "justify-center" : "px-2"
                     )}
                 >
                     <Button
@@ -74,15 +88,8 @@ export function Sidebar() {
                         <span className="sr-only">Toggle Sidebar</span>
                     </Button>
                     {!isCollapsed && (
-                        <div className="flex-1 flex items-center justify-center ms-3">
-                            <img
-                                src={
-                                    theme === "dark"
-                                        ? "/assets/logo-full-light.svg"
-                                        : "/assets/logo-full-dark.svg"
-                                }
-                                alt="amer"
-                            />
+                        <div className="flex-1 flex items-center justify-center ms-7 me-15">
+                            {mounted && <img src={logoSrc} alt="amer" />}
                         </div>
                     )}
                 </div>
@@ -113,8 +120,8 @@ export function Sidebar() {
                                                 className={cn(
                                                     "flex items-center rounded-lg text-sm font-medium transition-colors",
                                                     isCollapsed
-                                                        ? "gap-0 justify-center h-10 w-10 mx-auto px-0" // Margini ristretti/fissi
-                                                        : "w-full gap-3 justify-between px-2 py-2", // Margini ristretti
+                                                        ? "gap-0 justify-center h-10 w-10 mx-auto px-0"
+                                                        : "w-full gap-3 justify-between px-2 py-2",
                                                     pathname.startsWith(
                                                         "/products"
                                                     ) ||
@@ -133,8 +140,7 @@ export function Sidebar() {
                                                             : "gap-3"
                                                     )}
                                                 >
-                                                    <FolderTree className="h-5 w-5 shrink-0" />{" "}
-                                                    {/* Icona più grande */}
+                                                    <FolderTree className="h-5 w-5 shrink-0" />
                                                     {!isCollapsed && (
                                                         <span className="truncate">
                                                             Product Management
@@ -190,6 +196,11 @@ export function Sidebar() {
                         </Collapsible>
                     </nav>
                 </div>
+                {/* Separatore Verticale: Agisce come il bordo destro personalizzato */}
+                <NavSeparator
+                    orientation="vertical"
+                    className="absolute right-0 top-0 h-full w-[4px]"
+                />
             </div>
         </TooltipProvider>
     );

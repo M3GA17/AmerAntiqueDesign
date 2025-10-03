@@ -14,7 +14,7 @@ export function TopBar({ setMobileOpen, userMenu }: TopBarProps) {
     // Ho impostato una larghezza fissa per le colonne laterali (es. w-[200px] o w-[240px] per desktop più grandi)
     // e flex-1 per la colonna centrale, per garantire il bilanciamento.
     return (
-        <header className="flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6 shadow-sm dark:bg-[var(--color-card)]">
+        <header className="flex h-16 items-center gap-4 bg-card px-4 md:px-6 shadow-sm dark:bg-[var(--color-card)]">
             {/* Colonna Sinistra (Menu Mobile + Breadcrumb Desktop) - Larghezza Fissa */}
             {/* Ho impostato w-[200px] che corrisponde circa allo spazio lasciato dal sidebar chiuso (w-20 o 80px) + i margini, per un buon bilanciamento. */}
             <div className="flex items-center w-[160px] lg:w-[200px]">
