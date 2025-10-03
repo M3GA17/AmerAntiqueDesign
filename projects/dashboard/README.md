@@ -4,34 +4,38 @@ Dashboard for managing antique and modern furniture store built with Next.js, Ty
 
 ## Features
 
-- 🎨 **Modern UI** - Clean, professional dashboard layout
-- 🌓 **Dark/Light Mode** - Theme toggle with system preference detection
-- 📱 **Responsive Design** - Optimized for all screen sizes
-- 🧩 **shadcn/ui Components** - Beautiful, accessible UI components
-- 🚀 **Next.js 15** - Latest Next.js with App Router and Server Components
-- 📝 **TypeScript** - Full type safety
-- 🎯 **Tailwind CSS v4** - Modern utility-first CSS
+-   🎨 **Modern UI** - Clean, professional dashboard layout
+-   🌓 **Dark/Light Mode** - Theme toggle with system preference detection
+-   📱 **Responsive Design** - Optimized for all screen sizes
+-   🧩 **shadcn/ui Components** - Beautiful, accessible UI components
+-   🚀 **Next.js 15** - Latest Next.js with App Router and Server Components
+-   📝 **TypeScript** - Full type safety
+-   🎯 **Tailwind CSS v4** - Modern utility-first CSS
 
 ## Layout Structure
 
 ### Sidebar Navigation
-- Logo at the top
-- Direct links (Home)
-- Collapsible dropdown menus (Product Management with Products and Categories)
-- Settings and theme toggle at the bottom
-- User profile card with dropdown menu
+
+-   Logo at the top
+-   Direct links (Home)
+-   Collapsible dropdown menus (Product Management with Products and Categories)
+-   Settings and theme toggle at the bottom
+-   User profile card with dropdown menu
 
 ### Top Bar
-- Breadcrumb navigation showing current path
+
+-   Breadcrumb navigation showing current path
 
 ### Main Content Area
-- Responsive content area with pages for Home, Products, Categories, and Settings
+
+-   Responsive content area with pages for Home, Products, Categories, and Settings
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js 20.x or higher
-- npm, yarn, or pnpm
+
+-   Node.js 20.x or higher
+-   npm, yarn, or pnpm
 
 ### Installation
 
@@ -75,12 +79,12 @@ npm start
 
 ## Tech Stack
 
-- **Framework**: Next.js 15.5.4
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS v4
-- **UI Components**: shadcn/ui
-- **Icons**: lucide-react
-- **Theme**: next-themes
+-   **Framework**: Next.js 15.5.4
+-   **Language**: TypeScript
+-   **Styling**: Tailwind CSS v4
+-   **UI Components**: shadcn/ui
+-   **Icons**: lucide-react
+-   **Theme**: next-themes
 
 ## Configuration
 
@@ -88,6 +92,6 @@ The dashboard runs on port **3002** by default (as configured in package.json).
 
 ## Learn More
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [shadcn/ui Documentation](https://ui.shadcn.com)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+-   [Next.js Documentation](https://nextjs.org/docs)
+-   [shadcn/ui Documentation](https://ui.shadcn.com)
+-   [Tailwind CSS Documentation](https://tailwindcss.com/docs)

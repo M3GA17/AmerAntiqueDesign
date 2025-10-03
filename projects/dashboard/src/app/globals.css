@@ -33,21 +33,21 @@
     --radius: 0.5rem;
 }
 .dark {
-    --color-background: #232325; /* NUOVO: Background body */
+    --color-background: #303033; /* NUOVO: Background body */
     --color-foreground: #fefefe;
-    --color-card: #303033; /* NUOVO: Background secondario (usato per card/popover) */
+    --color-card: #232325; /* NUOVO: Background secondario (usato per card/popover) */
     --color-card-foreground: #ffffff;
-    --color-popover: #303033; /* NUOVO: Background secondario */
+    --color-popover: #232325; /* NUOVO: Background secondario */
     --color-popover-foreground: #ffffff;
     --color-primary: #c09456; /* NUOVO: Primary */
     --color-primary-foreground: #1a1a1a;
     --color-secondary: #675034; /* NUOVO: Primary Dark (usato come secondary) */
     --color-secondary-foreground: #ffffff;
-    --color-muted: #303033;
+    --color-muted: #232325;
     --color-muted-foreground: #fefefe;
-    --color-accent: #303033; /* Dark accent */
+    --color-accent: #232325; /* Dark accent */
     --color-accent-foreground: #fefefe; /* White accent text */
-    --color-destructive: #303033; /* Default destructive (dark) */
+    --color-destructive: #232325; /* Default destructive (dark) */
     --color-destructive-foreground: #fefefe;
     --color-border: #c09456; /* Primary per i bordi */
     --color-input: #c09456; /* Primary per input */
