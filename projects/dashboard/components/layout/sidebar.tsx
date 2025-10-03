@@ -18,7 +18,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useSidebar } from "./sidebar-provider";
+import { useSidebar } from "@/providers/sidebar-provider";
 
 export function Sidebar() {
     const { theme } = useTheme();

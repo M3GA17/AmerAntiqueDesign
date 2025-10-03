@@ -12,10 +12,10 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sidebar } from "@/components/sidebar";
-import { MobileSidebar } from "@/components/mobile-sidebar";
-import { Breadcrumb } from "@/components/breadcrumb";
-import { useSidebar } from "@/components/sidebar-provider";
+import { Sidebar } from "@/components/layout/sidebar";
+import { MobileSidebar } from "@/components/layout/mobile-sidebar";
+import { Breadcrumb } from "@/components/layout/breadcrumb";
+import { useSidebar } from "@/providers/sidebar-provider";
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { setMobileOpen } = useSidebar();
