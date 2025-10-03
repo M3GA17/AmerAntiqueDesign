@@ -3,34 +3,16 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import Image from "next/image"
 import { 
   Home, 
   Package, 
   FolderTree, 
   ChevronDown, 
-  Settings, 
-  Moon, 
-  Sun, 
-  User,
-  ChevronLeft,
-  ChevronRight,
-  Bell,
-  Search,
+  Menu,
 } from "lucide-react"
-import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Card } from "@/components/ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { Input } from "@/components/ui/input"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import {
   Tooltip,
   TooltipContent,
@@ -41,7 +23,6 @@ import { useSidebar } from "./sidebar-provider"
 
 export function Sidebar() {
   const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
   const { isCollapsed, toggleCollapse, expandSidebar } = useSidebar()
   const [isProductManagementOpen, setIsProductManagementOpen] = useState(true)
 
@@ -75,53 +56,33 @@ export function Sidebar() {
           isCollapsed ? "w-20" : "w-64"
         )}
       >
-        {/* Logo */}
-        <div className="flex h-16 items-center justify-center border-b px-4">
-          <div className="flex items-center gap-2 overflow-hidden">
-            {isCollapsed ? (
-              <Image 
-                src="/logo-square.svg" 
-                alt="Logo" 
-                width={32} 
-                height={32}
-                className="text-foreground"
-              />
-            ) : (
-              <div className="flex items-center gap-2">
+        {/* Logo and Toggle Button */}
+        <div className="flex h-16 items-center px-4">
+          {isCollapsed ? (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={toggleCollapse}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+          ) : (
+            <>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 shrink-0"
+                onClick={toggleCollapse}
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+              <div className="flex-1 flex items-center justify-center gap-2">
                 <Package className="h-6 w-6 shrink-0" />
                 <span className="text-xl font-bold whitespace-nowrap">AmerAntique</span>
               </div>
-            )}
-          </div>
-        </div>
-
-        {/* Search Box - Only in expanded mode */}
-        {!isCollapsed && (
-          <div className="px-4 py-3 border-b">
-            <div className="relative">
-              <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input 
-                placeholder="Search..." 
-                className="pl-8 h-9"
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Toggle Button */}
-        <div className="flex items-center justify-end px-4 py-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={toggleCollapse}
-          >
-            {isCollapsed ? (
-              <ChevronRight className="h-4 w-4" />
-            ) : (
-              <ChevronLeft className="h-4 w-4" />
-            )}
-          </Button>
+            </>
+          )}
         </div>
 
         {/* Navigation */}
@@ -226,108 +187,7 @@ export function Sidebar() {
           </nav>
         </div>
 
-        {/* Bottom Section */}
-        <div className="border-t p-3 space-y-2">
-          {/* Settings and Theme Toggle - Only visible when expanded */}
-          {!isCollapsed && (
-            <div className="flex items-center justify-between px-3 py-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-                asChild
-              >
-                <Link href="/settings">
-                  <Settings className="h-4 w-4" />
-                </Link>
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              >
-                <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                <span className="sr-only">Toggle theme</span>
-              </Button>
-            </div>
-          )}
 
-          {/* Profile Card */}
-          <Card className={cn("p-3", isCollapsed && "p-2")}>
-            <div className="space-y-2">
-              {/* User Dropdown */}
-              <DropdownMenu>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <DropdownMenuTrigger asChild>
-                      <button className={cn(
-                        "flex w-full items-center rounded-lg hover:bg-accent transition-colors",
-                        isCollapsed ? "justify-center gap-0" : "gap-3"
-                      )}>
-                        <Avatar className="h-8 w-8 shrink-0">
-                          <AvatarImage src="/avatar.png" alt="User" />
-                          <AvatarFallback>
-                            <User className="h-4 w-4" />
-                          </AvatarFallback>
-                        </Avatar>
-                        {!isCollapsed && (
-                          <div className="flex flex-col items-start text-sm">
-                            <span className="font-medium">Admin User</span>
-                            <span className="text-xs text-muted-foreground">admin@example.com</span>
-                          </div>
-                        )}
-                      </button>
-                    </DropdownMenuTrigger>
-                  </TooltipTrigger>
-                  {isCollapsed && (
-                    <TooltipContent side="right">
-                      <p>Admin User</p>
-                    </TooltipContent>
-                  )}
-                </Tooltip>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuItem>
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="text-destructive">
-                    Log out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              {/* Notification Bell */}
-              <div className={cn(
-                "flex items-center pt-2 border-t",
-                isCollapsed ? "justify-center" : "justify-start px-3"
-              )}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 relative"
-                    >
-                      <Bell className="h-4 w-4" />
-                      <span className="sr-only">Notifications</span>
-                    </Button>
-                  </TooltipTrigger>
-                  {isCollapsed && (
-                    <TooltipContent side="right">
-                      <p>Notifications</p>
-                    </TooltipContent>
-                  )}
-                </Tooltip>
-              </div>
-            </div>
-          </Card>
-        </div>
       </div>
     </TooltipProvider>
   )
