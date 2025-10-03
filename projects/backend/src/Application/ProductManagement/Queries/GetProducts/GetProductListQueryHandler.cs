@@ -8,6 +8,7 @@ namespace Application.ProductManagement.Queries.GetProducts
     {
         public async Task<List<Product>> Handle(GetProductListQuery request, CancellationToken cancellationToken)
         {
+            throw new Exception("Errore di prova");
             return (await productRepository.GetListAsync(cancellationToken)).ToList();
         }
     }

@@ -1,4 +1,5 @@
-﻿using Domain.ProductManagement.ValueObjects;
+﻿using Domain.ProductManagement.DomainEvents;
+using Domain.ProductManagement.ValueObjects;
 using Shared.Base.Validation;
 using Shared.Primitives;
 using Shared.ValueObjects;
@@ -33,6 +34,8 @@ public class Product : AggregateRoot<IdProduct>
             Description = description,
             Dimension = dimension,
         };
+
+        product.AddDomainEvent(new ProductCreatedDomainEvent(product.Id));
 
         return product;
     }

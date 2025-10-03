@@ -26,7 +26,7 @@ public class ProductController(ISender sender) : ControllerBase
 
     #region Commands
     [HttpPost("[action]")]
-    [Authorize(Roles = Permission.AmerAntiqueDesign_ProductManagement_Writer)]
+    //[Authorize(Roles = Permission.AmerAntiqueDesign_ProductManagement_Writer)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command, CancellationToken cancellationToken)

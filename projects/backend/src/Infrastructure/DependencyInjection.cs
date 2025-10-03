@@ -16,6 +16,7 @@ public static class DependencyInjection
         #region DbContext
         string? connectionString = configuration.GetConnectionString("Default");
         services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+
         #endregion DbContext
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());

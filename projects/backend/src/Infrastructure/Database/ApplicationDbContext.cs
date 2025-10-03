@@ -1,11 +1,14 @@
 ﻿using Application.Abstractions.UnitOfWork;
 using Domain.ProductManagement;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Primitives.Interfaces;
+using Shared.ValueObjects;
 
 namespace Infrastructure.Database;
 
-public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : DbContext(options), IApplicationDbContext, IUnitOfWork
+public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IMediator mediator)
+                   : DbContext(options), IApplicationDbContext, IUnitOfWork
 {
     //dotnet ef dbcontext scaffold "Host=localhost;Port=5432;Database=AmerAntiqueDesign_Dev;Username=postgres;Password=postgres" Npgsql.EntityFrameworkCore.PostgreSQL --output-dir Persistence/Entities --context-dir Persistence/Context --context TuoDbContext --no-onconfiguring
 
@@ -14,6 +17,7 @@ public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext>
     //    optionsBuilder.UseNpgsql();
     //}
 
+    private readonly IMediator mediator = mediator;
     public virtual DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,7 +35,34 @@ public partial class ApplicationDbContext(DbContextOptions<ApplicationDbContext>
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         //IncrementDatabaseVersion();
+        var entries = ChangeTracker.Entries()
+                    .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
+        foreach (var entry in entries)
+        {
+            // Salva informazioni sull'entry, l'utente e le modifiche
+            // in una tabella di Audit
+        }
+
+        await DispatchDomainEventsAsync();
         return await base.SaveChangesAsync(cancellationToken);
+    }
+    private async Task DispatchDomainEventsAsync()
+    {
+        var domainEventEntities = ChangeTracker.Entries<IAggregateRoot<BaseId<Guid>>>()
+            .Select(e => e.Entity)
+            .Where(e => e.DomainEvents.Count != 0)
+            .ToArray();
+
+        foreach (var entity in domainEventEntities)
+        {
+            var events = entity.DomainEvents.ToArray();
+            entity.ClearDomainEvents();
+            foreach (var domainEvent in events)
+            {
+                await mediator.Publish(domainEvent);
+            }
+        }
     }
     //private void IncrementDatabaseVersion()
     //{
