@@ -17,7 +17,7 @@ interface SidebarLinkProps extends React.ComponentPropsWithoutRef<typeof Link> {
     label: string;
     isCollapsed: boolean;
     onClick?: () => void;
-    // La proprietà className viene usata per sovrascrivere o aggiungere classi specifiche
+    children?: React.ReactNode;
 }
 
 export function SidebarLink({
@@ -27,20 +27,18 @@ export function SidebarLink({
     isCollapsed,
     onClick,
     className,
+    children,
     ...props
 }: SidebarLinkProps) {
     const pathname = usePathname();
     const isActive =
-        pathname === href || (href !== "/" && pathname.startsWith(href));
+        href !== "#" &&
+        (pathname === href || (href !== "/" && pathname.startsWith(href)));
 
     const linkContent = (
         <div
             className={cn(
-                "flex items-center rounded-lg text-sm font-medium transition-colors cursor-pointer",
-                // Margini e padding stretti e coerenti per eliminare l'effetto "jiggle"
-                isCollapsed
-                    ? "gap-0 justify-center h-10 w-10 mx-auto px-0"
-                    : "gap-3 w-full px-2 py-2", // Margine laterale ristretto (px-2)
+                "flex items-center h-10 px-3 rounded-lg text-sm font-medium transition-colors",
                 isActive
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
@@ -48,20 +46,30 @@ export function SidebarLink({
             )}
             onClick={onClick}
         >
-            <Icon className="h-5 w-5 shrink-0" />{" "}
-            {/* Icone leggermente più grandi (h-5 w-5) */}
-            {!isCollapsed && <span>{label}</span>}
+            <div className="flex items-center gap-4">
+                <Icon className="h-6 w-6 shrink-0" />
+                <span
+                    className={cn(
+                        "whitespace-nowrap transition-opacity",
+                        isCollapsed && "opacity-0 hidden" // Hide text when collapsed
+                    )}
+                >
+                    {label}
+                </span>
+            </div>
+            <div className="flex-1" />
+            {!isCollapsed && children}
         </div>
     );
 
-    const linkProps = { href, ...props };
-
-    if (isCollapsed) {
+    if (isCollapsed && href !== "#") {
         return (
             <TooltipProvider delayDuration={0}>
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <Link {...linkProps}>{linkContent}</Link>
+                        <Link href={href} {...props}>
+                            {linkContent}
+                        </Link>
                     </TooltipTrigger>
                     <TooltipContent side="right">
                         <p>{label}</p>
@@ -71,5 +79,13 @@ export function SidebarLink({
         );
     }
 
-    return <Link {...linkProps}>{linkContent}</Link>;
+    if (href === "#") {
+        return <div className="cursor-pointer w-full">{linkContent}</div>;
+    }
+
+    return (
+        <Link href={href} {...props}>
+            {linkContent}
+        </Link>
+    );
 }

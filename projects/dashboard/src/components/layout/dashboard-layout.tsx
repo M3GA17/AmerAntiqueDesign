@@ -1,5 +1,7 @@
 "use client";
 
+import { useSidebar } from "@/providers/sidebar-provider";
+import { cn } from "@/lib/utils";
 import { Menu, Bell, Settings, Moon, Sun, User } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
@@ -11,10 +13,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { TopBar } from "./top-bar";
 import { Sidebar } from "./sidebar";
 import { MobileSidebar } from "./mobile-sidebar";
-import { useSidebar } from "@/providers/sidebar-provider";
-import { TopBar } from "./top-bar"; // Import del nuovo componente
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { setMobileOpen } = useSidebar();

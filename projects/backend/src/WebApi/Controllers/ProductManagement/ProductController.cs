@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Base.Validation;
+using static Application.ProductManagement.Queries.GetProducts.GetProductListQuery;
 
 namespace WebApi.Controllers.ProductManagement;
 
@@ -18,9 +19,16 @@ public class ProductController(ISender sender) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetProducts(CancellationToken cancellationToken)
     {
+        //GetProductListQuery query = new();
+        //Result<List<Product>> response = await sender.Send(query, cancellationToken);
+        //return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+
+
         GetProductListQuery query = new();
-        Result<List<Product>> response = await sender.Send(query, cancellationToken);
-        return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Error);
+        // La response ora è una lista di ProductResponse
+        List<ProductResponse> response = await sender.Send(query, cancellationToken);
+        return Ok(response); // Restituiamo direttamente la lista, la gestione errori è centralizzata
+
     }
     #endregion Queries
 

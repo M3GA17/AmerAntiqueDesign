@@ -78,14 +78,13 @@ public class Program
                .AllowAnyMethod()
                .AllowAnyHeader()
                .AllowCredentials()
-               .WithOrigins("http://localhost:3000"));
+               .WithOrigins("http://localhost:3002"));
 
             app.UseAuthentication();
 
             app.UseAuthorization();
 
             app.MapControllers();
-            Log.Error("wewewe");
             app.Run();
 
             Log.Information("Ending...");

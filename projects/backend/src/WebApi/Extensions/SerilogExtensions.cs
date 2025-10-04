@@ -33,7 +33,7 @@ namespace WebApi.Extensions
                          schemaName: "log",
                          needAutoCreateTable: true,
                          restrictedToMinimumLevel: LogEventLevel.Error
-                     );
+                     ).WriteTo.Console();
 
                 //.WriteTo.Console();
                 //// Secondo Sink PostgreSQL - Da Information in su

@@ -44,7 +44,7 @@ export function MobileSidebar() {
         <Sheet open={isMobileOpen} onOpenChange={setMobileOpen}>
             <SheetContent
                 side="left"
-                className="w-[280px] p-0 dark:bg-[var(--color-card)]" // Usa il colore della card (sfondo secondario)
+                className="w-full p-0 dark:bg-[var(--color-card)] sm:w-[300px]" // Usa il colore della card (sfondo secondario)
             >
                 <div className="flex h-full flex-col">
                     {/* Logo */}
