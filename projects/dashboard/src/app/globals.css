@@ -47,8 +47,8 @@
     --color-muted-foreground: #fefefe;
     --color-accent: #232325; /* Dark accent */
     --color-accent-foreground: #fefefe; /* White accent text */
-    --color-destructive: #232325; /* Default destructive (dark) */
-    --color-destructive-foreground: #fefefe;
+    --color-destructive: #oklch(55% 0.22 25); /* Default destructive (dark) */
+    --color-destructive-foreground: #oklch(55% 0.22 25);
     --color-border: #c09456; /* Primary per i bordi */
     --color-input: #c09456; /* Primary per input */
     --color-ring: #c09456; /* Primary per ring */

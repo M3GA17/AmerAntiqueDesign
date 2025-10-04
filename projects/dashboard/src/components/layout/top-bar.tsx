@@ -1,4 +1,3 @@
-// projects/dashboard/src/components/layout/top-bar.tsx
 "use client";
 
 import { Bell, Menu, Search } from "lucide-react";
@@ -47,7 +46,7 @@ export function TopBar({ setMobileOpen, userMenu }: TopBarProps) {
                 </div>
                 <div className="flex flex-1 items-center justify-end gap-2">
                     <Button variant="ghost" size="icon" className="relative">
-                        <Bell className="h-5 w-5" />
+                        <Bell className="h-6 w-6" />
                         <span className="sr-only">Notifications</span>
                     </Button>
                     {userMenu}

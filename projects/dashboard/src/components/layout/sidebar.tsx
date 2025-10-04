@@ -64,22 +64,17 @@ export function Sidebar() {
             <div
                 className={cn(
                     "flex h-screen flex-col bg-card transition-all duration-300 shadow-xl relative overflow-x-hidden",
-                    isCollapsed ? "w-20" : "w-64"
+                    isCollapsed ? "w-auto" : "w-[264px]"
                 )}
             >
-                <div
-                    className={cn(
-                        "flex h-16 items-center shrink-0",
-                        isCollapsed ? "justify-center" : "px-4"
-                    )}
-                >
+                <div className={cn("flex h-16 items-center shrink-0 px-3")}>
                     <Button
                         variant="ghost"
                         size="icon"
                         className="h-10 w-10 shrink-0"
                         onClick={toggleCollapse}
                     >
-                        <Menu className="h-6 w-6" />
+                        <Menu className="h-8 w-8" />
                         <span className="sr-only">Toggle Sidebar</span>
                     </Button>
                     {!isCollapsed && (
@@ -146,7 +141,7 @@ export function Sidebar() {
                                                         {!isCollapsed && (
                                                             <ChevronDown
                                                                 className={cn(
-                                                                    "h-4 w-4 transition-transform shrink-0",
+                                                                    "h-5 w-5 transition-transform shrink-0",
                                                                     isProductManagementOpen &&
                                                                         "rotate-180"
                                                                 )}

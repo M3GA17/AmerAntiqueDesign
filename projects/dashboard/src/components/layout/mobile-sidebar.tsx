@@ -1,8 +1,8 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Home, Package, FolderTree, ChevronDown } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Home, Package, FolderTree, ChevronDown, Menu } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import {
@@ -10,16 +10,22 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "../ui/collapsible";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
-import { useSidebar } from "@/providers/sidebar-provider"; // Importato useSidebar
-import { SidebarLink } from "./sidebar-link"; // Importato SidebarLink
+import { Sheet, SheetContent } from "../ui/sheet";
+import { useSidebar } from "@/providers/sidebar-provider";
+import { SidebarLink } from "./sidebar-link";
+import { Button } from "../ui/button";
 
 export function MobileSidebar() {
     const pathname = usePathname();
-    const { theme, setTheme } = useTheme();
+    const { theme } = useTheme();
     const { isMobileOpen, setMobileOpen } = useSidebar();
     const [isProductManagementOpen, setIsProductManagementOpen] =
         useState(true);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const navigation = [
         {
@@ -40,27 +46,44 @@ export function MobileSidebar() {
         return pathname.startsWith(href);
     };
 
+    const logoSrc =
+        theme === "dark" ? "/assets/logo-light.svg" : "/assets/logo-dark.svg";
+
     return (
         <Sheet open={isMobileOpen} onOpenChange={setMobileOpen}>
             <SheetContent
                 side="left"
-                className="w-full p-0 dark:bg-[var(--color-card)] sm:w-[300px]" // Usa il colore della card (sfondo secondario)
+                className="w-full p-0 dark:bg-[var(--color-card)] sm:w-[300px]"
+                hideCloseButton={true}
             >
                 <div className="flex h-full flex-col">
-                    {/* Logo */}
-                    <SheetHeader className="border-b p-4">
-                        <SheetTitle className="flex items-center gap-2">
-                            <Package className="h-6 w-6" />
-                            <span className="text-xl font-bold">
-                                AmerAntique
-                            </span>
-                        </SheetTitle>
-                    </SheetHeader>
+                    {/* Header with Logo and Close Button */}
+                    <div className="flex h-16 items-center border-b px-4">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-10 w-10 shrink-0"
+                            onClick={() => setMobileOpen(false)}
+                        >
+                            <Menu className="h-6 w-6" />
+                            <span className="sr-only">Close Sidebar</span>
+                        </Button>
+                        <div className="flex-1 flex items-center justify-center">
+                            {mounted && (
+                                <img
+                                    src={logoSrc}
+                                    alt="AmerAntique Design"
+                                    className="h-8"
+                                />
+                            )}
+                        </div>
+                        {/* Spacer to balance the close button */}
+                        <div className="w-10" />
+                    </div>
 
                     {/* Navigation */}
                     <div className="flex-1 overflow-y-auto px-3 py-4">
                         <nav className="space-y-2">
-                            {/* Direct Links - Uso SidebarLink e sovrascrivo lo stile per mobile (senza isCollapsed) */}
                             {navigation.map((item) => (
                                 <SidebarLink
                                     key={item.name}
@@ -78,7 +101,6 @@ export function MobileSidebar() {
                                 />
                             ))}
 
-                            {/* Product Management Dropdown */}
                             <Collapsible
                                 open={isProductManagementOpen}
                                 onOpenChange={setIsProductManagementOpen}
@@ -97,13 +119,12 @@ export function MobileSidebar() {
                                         )}
                                     >
                                         <div className="flex items-center gap-3">
-                                            <FolderTree className="h-5 w-5" />{" "}
-                                            {/* Icona più grande */}
+                                            <FolderTree className="h-6 w-6" />
                                             Product Management
                                         </div>
                                         <ChevronDown
                                             className={cn(
-                                                "h-4 w-4 transition-transform",
+                                                "h-5 w-5 transition-transform",
                                                 isProductManagementOpen &&
                                                     "rotate-180"
                                             )}

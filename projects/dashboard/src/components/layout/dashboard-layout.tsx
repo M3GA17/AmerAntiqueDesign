@@ -1,7 +1,6 @@
 "use client";
 
 import { useSidebar } from "@/providers/sidebar-provider";
-import { cn } from "@/lib/utils";
 import { Menu, Bell, Settings, Moon, Sun, User } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
